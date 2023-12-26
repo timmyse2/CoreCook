@@ -1,0 +1,198 @@
+﻿@model IEnumerable<Core_CodeFirst.Models.Comic>
+
+@{
+    ViewData["Title"] = "Index";
+    ViewData["Subject"] = "圖書繪本集";
+
+
+    bool isAdmin = false;
+    if (ViewBag.IsAdmin == "YES")
+    {
+        isAdmin = true;
+    }
+}
+
+<h2>Index</h2>
+<h4>Comic (@ViewData["Subject"])</h4>
+
+<h5 class="text-danger"> @TempData["td_serverMessage"]</h5>
+
+@if (isAdmin)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+@{
+    //:: page
+    int totalpage = 0; int ipp = 5;
+    int pageNum = (int)ViewData["page"];
+    if (ViewData["rsCount"] != null)
+    {
+        //totalpage = (int)Math.Ceiling((double)( (int)ViewData["rsCount"] / ipp));
+        totalpage = (int)ViewData["rsCount"] / ipp + 1;
+        <ul class="pagination">
+
+            @{
+                if (pageNum > 0)
+                {
+                    <li class="page-item"><a class="page-link" href="?page=@(pageNum)"><</a></li>
+                }
+                else
+                {
+                    <li class="page-item disabled"><a class="page-link"><</a></li>
+                }
+
+                for (int i = 0; i < totalpage; i++)
+                {
+                    if (i == pageNum)
+                    {
+                        <li class="page-item active">
+                            <a class="page-link">@(i + 1)</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a href="?page=@(i + 1)" class="page-link"> @(i + 1) </a>
+                        </li>
+                    }
+                } //for
+                if (pageNum < totalpage - 1)
+                {
+                    <li class="page-item"><a class="page-link" href="?page=@(pageNum+2)">></a></li>
+                }
+                else
+                {
+                    <li class="page-item disabled"><a class="page-link">></a></li>
+                }
+
+            }
+
+        </ul>
+    }
+}
+
+<br>
+@*@ViewData["page"] | @totalpage  | Total data: @ViewData["rsCount"]*@
+
+
+<a href="Comics/List">條件清單</a>
+@*<a href="Comics/Search">進階搜尋 '' </a> |*@
+
+@{
+    if (ViewData["maker"] != null)
+    {
+        <label>進階搜尋' @ViewData["maker"] '</label>
+        <a href="?makerid=-1" class="btn  btn-info">清除條件</a>
+    }
+}
+
+
+@{
+    int seq = 0;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComicName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Maker)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @{++seq;}
+                <td>@seq</td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.ComicName)*@
+                    <a asp-action="Details" asp-route-id="@item.ComicId">@Html.DisplayFor(modelItem => item.ComicName)</a>
+                </td>
+                <td>
+                    @{
+                        if (item.Image != null)
+                        {
+                            if (item.Image != "")
+                            {
+
+                                <a asp-action="Details" asp-route-id="@item.ComicId">
+                                    <img src="~/images/@item.Image" style="width:100px; border:solid; border-width:1px" />
+                                </a>
+                                <p />
+                            }
+                        }
+                    }
+                    @*@Html.DisplayFor(modelItem => item.Image)*@
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.Maker.MakerId)  -*@
+
+                    <a asp-controller="Makers" asp-action="Details" asp-route-id="@item.MakerId">
+                        <!--  target="_blank">-->
+                        @{
+                            if (item.Maker.Image != null)
+                            {
+                                if (item.Maker.Image != "")
+                                {
+                                    <img src="~/images/@item.Maker.Image" style="width:50px; border:solid; border-width:1px" /><br />
+                                }
+                            }
+                        }
+                        @Html.DisplayFor(m => item.Maker.UserName)
+                    </a>
+                </td>
+                <td>
+
+                    @if (isAdmin)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.ComicId">Edit</a> <label>| </label>
+                        @*<a asp-action="Details" asp-route-id="@item.ComicId">Details</a> |*@
+                        <a asp-action="Delete" asp-route-id="@item.ComicId">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@if (isAdmin)
+{
+    <b>@ViewBag.UserAccount</b>
+    <a href="/Comics/Logout">登出</a>
+}
+else
+{
+    <a href="/Comics/Login">登入</a>
+}
+
+@*@if (TempData["td_serverMessage"] != null)
+{
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js" charset="GB2312"></script>
+    <script  charset="GB2312" >
+         $(window).on("load", function () {
+             console.log("window load - jquery");
+             alert("@TempData["td_serverMessage"]");
+
+        });
+    </script>
+}*@

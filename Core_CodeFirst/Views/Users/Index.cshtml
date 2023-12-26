@@ -1,0 +1,146 @@
+﻿@model IEnumerable<Core_CodeFirst.Models.User>
+
+@{
+    ViewData["Title"] = "Index";
+
+
+    //::try the new sort method in view, convert list from model
+    var usersMore = (List<User>)Model;
+    //usersMore.ForEach(u=>u.Total = u.Id+u.vt_Blogs.Count());
+    var mm = usersMore.OrderByDescending(u => u.vt_Blogs.Count);
+
+    bool isAdmin = false;
+    if (ViewData["IsAdmin"] == "YES")
+    {
+        isAdmin = true;
+    }
+}
+
+<h2>User Index</h2>
+<h5 class="text-danger"> @TempData["td_serverMessage"]</h5>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @if (isAdmin)
+                {
+                    <u>使用量(blog count)</u>
+                }                
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    @{
+        string color_token = "#000";
+    }
+
+    <tbody>
+        @*@foreach (var item in Model)*@
+        @foreach (var item in mm)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+
+                    @{
+                        int BlogCount = item.vt_Blogs.Count;
+                    }
+                    @*@switch (BlogCount)
+                    {
+                        case 0:
+                            <b style="background:#ccc"> @BlogCount 沒發文</b>
+                            break;
+                        case 1:
+                            <b style="background:#b6ff00"> @BlogCount 剛好</b>
+                            break;
+                        default:
+                            <b style="background:red"> @BlogCount 超出</b>
+                            break;
+                    }*@
+
+                    @*<h5 style="background:@color_token">
+                        @CountComment(BlogCount)
+                    </h5>*@
+
+                    @*@Html.Raw(CountComment(BlogCount))*@
+
+                    @if(isAdmin)
+                    {
+                        string temps = CountComment(BlogCount);                    
+                        <label style="background:@color_token">@temps</label>
+                    }
+                </td>
+                <td>
+                    @if(isAdmin)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <u>|</u>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> <u>|</u>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
+
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    //::local funciton
+    string CountComment(int count)
+    {
+        string _comment = "";
+
+        switch (count)
+        {
+            case 0:
+                _comment = $"{count}未設定";
+                color_token = "#ccc";
+                break;
+            case 1:
+                _comment = $"{count}剛好符合";
+                color_token = "#0c0";
+                break;
+            default:
+                _comment = $"{count}超界";
+                color_token = "red";
+                break;
+        }
+        //_comment ="<h5 style='background:" + color_token +"'>"+ _comment + "</h5>";
+
+        return _comment;
+    }
+}
+
+@{ 
+    //local function type2
+
+    //string CountComment2(int port) =>
+    //    port switch
+    //    {
+    //        0 => $"",
+    //        _ => $""
+    //    }
+}

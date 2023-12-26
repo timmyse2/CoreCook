@@ -1,0 +1,113 @@
+﻿@model IEnumerable<Core_CodeFirst.Models.Maker>
+
+@{
+    ViewData["Title"] = "Index";
+    ViewData["Subject"] = "創作者們";
+
+    bool isAdmin = false;
+    if (ViewBag.IsAdmin == "YES")
+    {
+        isAdmin = true;
+    }
+
+    //var MakersMore = Model;
+}
+
+<h2>Index</h2>
+<h4>Maker @ViewData["Subject"] </h4>
+<h5 class="text-danger" id="bg">@TempData["action_msg"]</h5>
+
+@if (isAdmin)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.UserName)*@
+                    <a asp-action="Details" asp-route-id="@item.MakerId">@item.UserName</a>
+                </td>
+                <td>
+                    @{
+                        if (item.Image != null)
+                        {
+                            if (item.Image != "")
+                            {
+                                <a asp-action="Details" asp-route-id="@item.MakerId">
+                                    <img src="~/images/@Html.DisplayFor(modelItem => item.Image)"
+                                         style="width:100px; border:solid; border-width:1px" />
+                                </a>
+                            }
+                        }
+                    }
+                </td>
+                <td>
+                    @if (isAdmin)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.MakerId">Edit</a> <b>|</b>
+                        @*<a asp-action="Details" asp-route-id="@item.MakerId">Details</a> |*@
+                        <a asp-action="Delete" asp-route-id="@item.MakerId">Delete</a>
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@*<label id="bg">test</label>*@
+
+@*[timmy]*@
+
+
+@section endJS{
+<script type="text/javascript">
+    window.onload = function () {
+        //alert("@TempData["action_msg"]");        
+        //document.getElementById("bg").style.backgroundColor = "#eee";
+        console.log("window onload");
+       @*@if (TempData["action_msg"] != null) {
+           //alert("");           
+       }*@
+
+        //::PS. use Html.Raw() here !
+        var msg1 = "@Html.Raw(TempData["action_msg"])";
+        if (msg1 != "")
+            alert(msg1);
+    }
+    
+    @*document.onload = function () {
+        console.log("doc load");
+        var msg1 = "@TempData["action_msg"]";
+        if (msg1 != "")
+            alert(msg1);
+    }*@
+
+    //window.onloadend = function () {
+    //    console.log("window onloadend");
+    //}
+    //document.getElementById("bg").style.backgroundColor = "#F00";
+    //document.read
+
+</script>
+}
+
+

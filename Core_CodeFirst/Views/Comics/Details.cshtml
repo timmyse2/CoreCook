@@ -1,0 +1,64 @@
+﻿@model Core_CodeFirst.Models.Comic
+
+@{
+    ViewData["Title"] = "Details";
+
+    bool isAdmin = false;
+    if (ViewBag.IsAdmin == "YES")
+    {
+        isAdmin = true;
+    }
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Comic</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ComicName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ComicName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Image)<br/>
+            @{
+                if (Model.Image != null)
+                {
+                    if (Model.Image != "")
+                    {
+                        <img src="~/images/@Model.Image" style="width:200px; border:solid; border-width:1px" />
+                        <p />
+                    }
+                }
+            }
+
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Maker)
+        </dt>
+        <dd>
+            @Model.Maker.UserName
+            (ID: @Html.DisplayFor(model => model.Maker.MakerId))
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (isAdmin)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.ComicId">Edit</a>
+        <c>|</c>
+    }
+    <a asp-action="Index">Back to List</a>
+</div>

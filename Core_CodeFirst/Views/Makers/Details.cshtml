@@ -1,0 +1,62 @@
+﻿@model Core_CodeFirst.Models.Maker
+
+@{
+    ViewData["Title"] = "Details";
+
+    bool isAdmin = false;
+    if (ViewBag.IsAdmin == "YES")
+    {
+        isAdmin = true;
+    }
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Maker</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+        <dd>
+
+            @{
+                if (@Model.Image != null)
+                {
+                    if (@Model.Image != "")
+                    {
+
+                        <img src="~/images/@Model.Image"
+                             style="width:100px; border:solid; border-width:1px" /><br/>
+                    }
+                }
+            }
+            @*@Html.DisplayFor(model => model.Image)*@
+
+        </dd>
+        <dt>
+            作者的作品集(...)
+        </dt>
+        <dd>
+            @*<button class="btn btn-default btn-info">按我查詢</button>*@
+            <a class="btn btn-default btn-info"
+               href="~/comics/?makerid=@Model.MakerId" style="margin:2px">按我查詢</a>
+        </dd>
+        
+    </dl>
+</div>
+<div>
+    @if (isAdmin)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.MakerId">Edit</a>
+        <c>|</c>
+    } 
+    <a asp-action="Index">Back to List</a>
+</div>

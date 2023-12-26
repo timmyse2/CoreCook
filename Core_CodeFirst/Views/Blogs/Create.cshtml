@@ -1,0 +1,48 @@
+﻿@model Core_CodeFirst.Models.Blog
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>建立社團</h2>
+
+<h4>Blog</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                @*<label asp-for="BlogName" class="control-label"></label>*@
+                <label class="control-label">BLOG名稱</label>
+                <input asp-for="BlogName" class="form-control" />
+                <span asp-validation-for="BlogName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @*<label asp-for="Url" class="control-label"></label>*@
+                <label class="control-label">網址</label>
+                <input asp-for="Url" class="form-control" />
+                <span asp-validation-for="Url" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @*<label asp-for="UserId" class="control-label"></label>*@
+                <label class="control-label">成立者</label>
+                @*<select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>*@
+
+                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId_withName"></select>
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="送出資料" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,320 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <title>Bootstrap study</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" crossorigin="anonymous" />
+
+    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/site.min.css"
+          rel="stylesheet" crossorigin="anonymous" /-->>
+
+    <!--<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css" />-->
+    <link rel="stylesheet" href="css/site.css" />
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap-theme.css"/>
+
+    <style>
+        body {
+            padding: 5px;
+        }
+    </style>
+
+    <!--js-->
+</head>
+
+<body style="margin:5px;padding:5px;">
+    Bootstrap study
+    <a href="home">Home</a>
+
+    <p></p>
+    <button type="button" class="btn btn-danger"
+            data-bs-toggle="modal"
+            data-target="#exampleModal">
+        Modal Test
+    </button>
+
+    <button class="btn btn-close" aria-label="Close"></button>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">標題</h5>
+                    <button type="button" class="btn btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body"> ... </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success">Close</button>
+                    <button class="btn btn-success">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+    <button class="btn">Btn</button>
+    <button class="btn btn-primary">Primary</button>
+    <button class="btn btn-success">Secondary</button>
+    <button class="btn btn-danger">Danger</button>
+    <button class="btn btn-warning">Warning</button>
+    <button class="btn btn-info">Info</button>
+    <button class="btn btn-dark">Dark</button>
+    <button class="btn btn-link">Link</button>
+    <button class="btn btn-lg">Lg</button>
+
+    <button class="btn btn-outline-primary">outline</button>
+    <button class="btn btn-outline-danger">ol danger</button>
+    <button class="btn btn-outline-dark">ol dark</button>
+    <hr />
+
+    <div class="row">
+        <div class="card col-md-3">
+            <div class="card-header">
+                空条徐倫
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    JOJO6
+                </p>
+                <img class="img-thumbnail" src="images/jojo6.png" />
+            </div>
+            <div class="card-footer">主演</div>
+        </div>
+
+        <div class="card col-md-3">
+            <div class="card-header">
+                明日小路
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    百合唯美風格
+                </p>
+                <img class="img-thumbnail" src="images/m2.jpg" />
+            </div>
+            <div class="card-footer">主演</div>
+        </div>
+
+    </div>
+
+    <div class="card col-md-3">
+        <div class="card-header">
+            空条徐倫
+        </div>
+        <div class="card-body">
+            <p class="card-text">
+                JOJO6
+            </p>
+            <img class="img-thumbnail" src="images/jojo6.png" />
+        </div>
+        <div class="card-footer">主演</div>
+    </div>
+
+    <div class="card col-md-3">
+        <div class="card-header">
+            明日小路
+        </div>
+        <div class="card-body">
+            <p class="card-text">
+                百合唯美風格
+            </p>
+            <img class="img-thumbnail" src="images/m2.jpg" />
+        </div>
+        <div class="card-footer">主演</div>
+    </div>
+
+
+    <hr />
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne"
+                        aria-expanded="true"
+                        aria-controls="collapseOne">
+                    Q1: 有賣植物肉米漢堡嗎?
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show"
+                 aria-labelledby="headingOne"
+                 data-bs-parent="#accordionExample">
+                <div class="accordion-body">有的! We have!</div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Q2: 植物物肉是純素嗎?
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    是彈性素、鍋邊素、五辛蛋奶素...沒有純素的喔！
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p />
+
+    <ul class="list-group">
+
+        <li class="list-group-item active">Top1</li>
+        <li class="list-group-item list-group-item-info">
+            Top2
+            <span class="badge bg-info">16</span>
+        </li>
+        <li class="list-group-item">Top3 <span class="badge bg-danger">100+</span> </li>
+    </ul>
+
+    <p></p>
+
+    <nav>
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link"><-</a></li>
+            <li class="page-item active"><a class="page-link">1</a></li>
+            <li class="page-item"><a class="page-link">2</a></li>
+            <li class="page-item"><a class="page-link">3</a></li>
+            <li class="page-item"><a class="page-link">-></a></li>
+        </ul>
+    </nav>
+
+
+    <!--<div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Accordion Item #1
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Accordion Item #2
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Accordion Item #3
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!--<i class="fa fa-address-book">fa</i>-->
+
+    <div class="input-group mb-3">
+        <span class="input-group-text">
+            1<i class="fa fa-user"></i>
+        </span>
+        <input class="form-control" type="text" placeholder="Your Name" />
+        <span class="input-group-text">Name</span>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text bg-info">
+            2<i class="fa fa-user"></i>
+        </span>
+        <input class="form-control text-danger text-justify" type="text" placeholder="Your Phone Number 09....." />
+        <span class="input-group-text bg-info">Phone</span>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text">
+            3<i class="fa fa-user"></i>
+        </span>
+        <input class="form-control text-center" type="text" placeholder="Your Mail" />
+        <span class="input-group-text text-muted bg-warning">Mail</span>
+    </div>
+
+
+    <div class="dropdown">
+        <button class="btn btn-danger dropdown-toggle" type="button"
+                id="dropdownMenuButton1"
+                data-bs-toggle="dropdown"
+                aria-label="無障礙的輔助..."
+                aria-expanded="false">
+            Select 3C Devices...
+        </button>
+
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>PC</li>
+            <li>LCD</li>
+            <li>DC</li>
+            <li><hr /></li>
+            <li>PDA</li>
+            <li>Phone</li>
+        </ul>
+    </div>
+    <p />
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="text-white bg-primary">
+            <tr>
+                <td>1</td>
+                <td>2</td>
+            </tr>
+
+        </thead>
+
+
+        <tr>
+            <td>Male</td>
+            <td>Female</td>
+        </tr>
+        <tr>
+            <td>Male</td>
+            <td>Female</td>
+        </tr>
+        <tr>
+            <td>Male</td>
+            <td>Female</td>
+        </tr>
+    </table>
+
+
+    <select class="form-select" multiple aria-label="multiple select example">
+        <option selected>Open this select menu</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+    </select>
+
+
+    <!--js bootstrap bundle with popper-->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+            integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+            crossorigin="anonymous"></script>
+    <!--separate popper and bootstrap js-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ"
+            crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+</body>
+</html>

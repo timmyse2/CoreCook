@@ -1,0 +1,48 @@
+﻿@model Core_CodeFirst.Models.Blog
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Blog</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BlogName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BlogName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Url)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Url)
+        </dd>
+        <dt>
+            @*@Html.DisplayNameFor(model => model.User)*@
+            建立者
+        </dt>
+        <dd>
+
+            @*::show more info of user*@
+            @Html.DisplayFor(model => model.User.UserName)
+            <a href="~/Users/Details/@Model.User.Id"> >> </a>
+
+            @*@Html.DisplayFor(model => model.User.Id)*@
+
+
+        </dd>
+        @*<dt>發佈的文章</dt>
+        <dd>
+            @Model.Post.BlogId
+        </dd>*@
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.BlogId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

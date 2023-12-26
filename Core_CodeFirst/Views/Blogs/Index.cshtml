@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Core_CodeFirst.Models.Blog>
+
+@{
+    ViewData["Title"] = "Index";
+
+
+    bool isAdmin = false;
+    if(ViewData["IsAdmin"] == "YES")
+    {
+        isAdmin = true;
+    }
+}
+
+<h2>Blogs Index</h2>
+
+<h5 class="text-danger" id="bg">@TempData["action_msg"]</h5>
+
+
+@if(isAdmin)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Url)
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.User)*@
+                板主(管理者)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BlogName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Url)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.User.Id) :*@
+                @Html.DisplayFor(modelItem => item.User.UserName)
+                @*::use user name is better*@
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.BlogId">Details</a>
+                @if (isAdmin)
+                {
+                    <c>|</c> <a asp-action="Edit" asp-route-id="@item.BlogId">Edit</a>                 
+                    <c>|</c> <a asp-action="Delete" asp-route-id="@item.BlogId">Delete</a>
+                }
+
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

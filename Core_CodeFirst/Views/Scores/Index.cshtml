@@ -1,0 +1,284 @@
+﻿@model IEnumerable<Core_CodeFirst.Models.Score>
+
+@{
+    ViewData["Title"] = "Index";
+
+    int topId = Convert.ToInt32(ViewData["TopId"]);
+    string btn_str = @"<button onclick='alert(""Hi JS! 你的代號是9527"")'>CLICK ME</button>";
+
+    //var newOrderList = (List<Score>)Model;
+    //newOrderList =
+    //    newOrderList.OrderByDescending(s => s.Total).ToList();
+
+
+    var newOrderList = (List<Score>)Model.OrderByDescending(s => s.Total).ToList();
+}
+
+@*Razor template*@
+@{
+    Func<dynamic, object> cardTemplate =
+    @<div class="col-md-3 text-center"
+          style="border:solid;border-width:1px;border-radius:5px;margin:2px;padding:2px;height:150px">
+        <div>
+            <div>
+                <h4>@item.Name</h4>
+            </div>
+            <div>
+                <img />
+                平均 @(item.Total / 5)
+            </div>
+            <div >
+                總分 @item.Total
+            </div>
+        </div>
+    </div>
+    ;
+}
+
+<h2>Student Score Index</h2>
+
+
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+
+@*Top 1: @ViewData["TopId"] <br />*@
+
+<table class="table table-bordered text-center">
+    <thead>
+        <tr>
+            <th>排名</th>
+            <th>學號</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Chinese)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.English)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Math)
+            </th>
+
+            <th>@Html.DisplayNameFor(m => m.Art)</th>
+            <th>@Html.DisplayNameFor(model => model.Sport)</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th>Avg</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            //string bgcolor = "";
+            int seqId = 0;
+        }
+        @foreach (var item in newOrderList) //Model)
+        {
+
+            //bool isTop1 = false;
+            //string rowStyle = "";
+            //if (item.Id == topId)
+            //{
+            //    isTop1 = true;
+            //    rowStyle = "background:gold";
+            //}
+
+            <tr>
+                <td>
+                    @if (item.Id == topId)
+                    {
+                        <b class="text-danger">Top</b>
+                    }
+                    @(++seqId)
+                </td>
+                <td>@(item.Id)</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+
+                @*@if (item.Chinese < 60)
+                    {
+                        bgcolor = "red";
+                    }
+                    else
+                    {
+                        bgcolor = "white";
+                    }*@
+
+                <td style="background:@ScoreComment(item.Chinese)">
+                    @Html.DisplayFor(modelItem => item.Chinese)
+                </td>
+                @*@if (item.English < 60)
+                    {
+                        bgcolor = "red";
+                    }
+                    else
+                    {
+                        bgcolor = "white";
+                    }*@
+                <td style="background:@ScoreComment(item.English)">
+                    @Html.DisplayFor(modelItem => item.English)
+                </td>
+                @*@if (item.Math < 60)
+                    {
+                        bgcolor = "red";
+                    }
+                    else
+                    {
+                        bgcolor = "white";
+                    }*@
+                <td style="background:@ScoreComment(item.Math)">
+                    @Html.DisplayFor(modelItem => item.Math)
+                </td>
+
+                <td style="background:@ScoreComment(item.Art)">
+                    @item.Art
+                </td>
+                <td style="background:@ScoreComment(item.Sport)">
+                    @item.Sport
+                </td>
+                <td style="background:@ScoreComment(item.Total / 5)">
+                    <b>@Html.DisplayFor(modelItem => item.Total)</b>
+                </td>
+                <td style="background:@ScoreComment(item.Total / 5)">
+                    @(item.Total / 5)
+                </td>
+                <td>
+                    @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Raw(btn_str)<br />
+@(btn_str)<br />
+
+
+
+
+@*@GetPhoneNumber()<br/>*@
+<hr />
+
+<div class="row">
+    
+    @foreach (var item in newOrderList) //Model
+    {
+        @cardTemplate(item)
+    }    
+</div>
+
+<p />
+
+@*[Timmy][Dec 23 2023][Partial View]*@
+@*<partial name="_ScoreCard" />
+    @await Html.PartialAsync("_ScoreCard")
+*@
+
+<div class="row">
+
+    @foreach (var m in newOrderList)
+    {
+        @await Html.PartialAsync("_ScoreCard", m)
+        @*<partial name="_ScoreCard" model="m" />
+            await Html.RenderPartialAsync("_ScoreCard", m);*@
+    }
+</div>
+
+@*@{
+        ViewData["Name"] = "vvv";
+        ViewData["Total"] = "500";
+        await Html.PartialAsync("_ScoreCard", ViewData);
+    }*@
+@*<partial name="_ScoreCard" view-data="ViewData" />*@
+@*@{await Html.RenderPartialAsync("_ScoreCard", ViewData); }*@
+
+@*::Local Functions*@
+@functions
+{
+public string Name { get; set; }
+public string RealName { get; set; }
+public string GetPhoneNumber()
+{
+    return "9527";
+}
+
+string ScoreComment(int score)
+{
+    string _cmt = "";
+
+    if (score < 60)
+    {
+        _cmt = "#f00";
+    }
+    else if (score >= 90)
+    {
+        _cmt = "#af0";
+    }
+    else
+        _cmt = "#0af";
+
+    return _cmt;
+}
+
+string ScoreLevel(int score)
+{
+    string res = "";
+
+    //::C# 8.0 switch expression
+    //score switch
+    //{
+    //    int s when s < 60 => "poor",
+    //    int s when s >= 95 => "excellent"
+    //};
+
+    return res;
+}
+}
+
+@*@functions{ // Core2.x does not work for html marker:(
+            private void PersionInfo()
+            {
+                < div ></ div >
+            }
+    }*@
+
+
+@section topCSS{
+
+    <link href="~/css/Card.css" rel="stylesheet" />
+    <style>
+        .myborder {
+            border: solid;
+            /*border-radius: 10px;*/
+            border-width: 1px;
+            border-color: #eee;
+            margin-top: 2px;
+            margin-bottom: 2px;
+            padding: 2px;
+        }
+
+        .myCard {
+            border: solid;
+            border-radius: 10px;
+            border-width: 1px;
+            /*margin: 2px;*/
+            border-color: #ccc;
+            /*margin:2px,0px,2px,0px;*/
+            margin-top: 2px;
+            margin-bottom: 2px;
+            padding: 2px;
+        }
+
+            .myCard:hover {
+                background-color: olivedrab !important;
+                color: wheat;
+            }
+    </style>
+}
+
