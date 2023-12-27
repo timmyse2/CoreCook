@@ -1,6 +1,13 @@
-﻿
+﻿@model List<Person>
 @{
-    Layout = null;
+    //Layout = null;
+
+    var ps = (List<Person>)Model;
+
+    //from model to object
+    string json2 = Newtonsoft.Json.JsonConvert.SerializeObject(ps);
+    //from object to list
+    var list2 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Person>>(json2);
 }
 
 <!DOCTYPE html>
@@ -12,7 +19,40 @@
 </head>
 <body>
 
-    JSON study
+    <h1>JSON study</h1>
+    @*<textarea class="form-control">@json2</textarea>*@
+
+    <div class="alert alert-success">Newtonsoft.Json</div>
+    @*<div class="table-bordered">@json2</div>*@
+    <div class="alert alert-info">
+        @(json2)
+    </div>
+    <div class="alert alert-primary">
+        @Html.Raw(json2)
+    </div>
+    @list2
 
 </body>
 </html>
+
+
+@section topCSS
+{
+    <style>
+        div.alert.alert-primary{
+            margin-top: 10px;
+            border: 2px dashed black;
+        }
+    </style>
+
+}
+
+@section endJS
+{
+    <script>
+        //var jsArayy1 = @json2;
+        var jsArray2 = @Html.Raw(json2);
+        console.log(jsArray2);
+    </script>
+
+}

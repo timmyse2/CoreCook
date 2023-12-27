@@ -1,0 +1,140 @@
+﻿@model IEnumerable<Location>
+@{
+    ViewData["Title"] = "GetTemp";
+}
+
+<h2>GetTemp</h2>
+<b>Json Labels</b>
+<div class="table-bordered">
+    @(ViewData["JsonLabels"])
+</div>
+<p></p>
+
+<b>Json Locations</b>
+<div class="table-bordered">
+    @(ViewData["JsonLocations"])
+</div>
+<p></p>
+
+<b>Data table</b>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr><th>City</th><th>Avg Temp per Month</th></tr>        
+    </thead>
+    <tbody>
+        @foreach (var m in Model)
+        {
+            <tr>
+                <td>@m.City</td>
+                <td>
+                    @*@m.Temperature*@
+                    @*@m.Temperature.Length*@
+
+                    @*@foreach(var mt in m.Temperature)
+                    {
+                        @mt <c> </c> 
+                    }*@
+
+                    @*@Html.Raw(Newtonsoft
+                        .Json.JsonConvert.SerializeObject(m.Temperature))*@
+                    @(Newtonsoft
+                        .Json.JsonConvert.SerializeObject(m.Temperature))
+
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<b>Chart</b>
+<div class="table-bordered">
+    <canvas id="lineChart_1"></canvas>
+</div>
+
+<b>Chart Study</b>
+<div class="table-bordered">
+    <canvas id="lineChart_2"></canvas>
+</div>
+
+@section topJS{ 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+}
+
+
+@section endJS{ 
+    <script>
+        var jsMoths = @Html.Raw((string)(ViewData["JsonLabels"]));
+        console.log(jsMoths);
+
+        var jsLocArray = @Html.Raw((string)(ViewData["JsonLocations"]));
+        console.log(jsLocArray);
+
+        var ctx_1 = document.getElementById("lineChart_1");
+        var ctx_2 = document.getElementById("lineChart_2");
+
+        var chart1 = new Chart(ctx_1, {
+            type: "line",
+            data: {
+                //lables: jsMoths,
+                labels: jsMoths,
+                datasets: [{
+                        label: jsLocArray[0].City
+                        ,data: jsLocArray[0].Temperature
+                        , borderColor: 'rgb(255,0,0)'
+                        , pointStyle: 'circle'
+                        , fill: false
+                    },{
+                        label: jsLocArray[1].City
+                        , data: jsLocArray[1].Temperature
+                        , borderColor: 'rgb(0,255,0)'
+                        , fill: false
+                    },{
+                        label: jsLocArray[2].City
+                        , data: jsLocArray[2].Temperature
+                        , borderColor: 'rgb(0,0,255)'
+                        , fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true, /*rescale auto?*/
+                title: {
+                    display: true,
+                    fontSize: 16,
+                    text: 'Test data from JSON'
+                }
+            }
+        });
+
+
+        //study - 
+        var chart2 = new Chart(ctx_2, {
+            type: "line",
+            data: {
+                labels: ['1', '2', '3','4','5'],
+                datasets: [{
+                    label: 'Test',
+                    data: [15, 16, 17],
+                    //fill:false
+                }]
+            },
+            options: {
+                responsive:true,
+                title: {
+                    display: true,
+                    fontSize: 16,
+                    text:'temp'
+                },
+                legend: {
+                    position: 'bottom'
+                    , labels:{
+                        fontColor:'black'
+                    }
+                }
+            }
+        });
+        
+    </script>
+
+}
