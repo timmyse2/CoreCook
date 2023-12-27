@@ -5,46 +5,65 @@
     <title>CH9 JSON </title>
     <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
     <!--<link rel="stylesheet" href="/css/site.css" />-->
+    <style>
+        body{
+            margin:4px;
+        }
+    
+    </style>
 </head>
 <body>
-
     <h2>JSON Study with Java Script</h2>
+    <hr/>
+    <table border="1">
+        <tr>
+            <td><p id="p1" class="alert-info">p1</p></td>
+            <td><p id="p2" class="alert-info">p2</p></td>
+        </tr>
+        <tr>
+            <td><p id="p3" class="alert-info">p3</p></td>
+            <td><p id="p4" class="alert-info">p4</p></td>
+        </tr>
+        <tr>
+            <td><p id="p5" class="alert-info">p5</p></td>
+            <td><p id="p6" class="alert-info">p6</p></td>
+        </tr>
+        <tr>
+            <td><p id="p7"class="alert-info">p7</p></td>
+            <td><p id="p8"class="alert-info">p8</p></td>
+        </tr>
+        <tr>
+            <td><p id="p9" class="alert-info">p9</p></td>
+            <td><p id="p10" class="alert-info">p10</p></td>
+            
+        </tr>
+        <tr>
+            <td><textarea id="ta1" class="form-control"></textarea></td>
+            <td><textarea id="ta2" class="form-control"></textarea></td>
+        </tr>        
+    </table>
 
-    <div>
-        <p id="p1" class="alert">p1</p>
-        <hr>
-        <p id="p2" class="alert">p2</p>
-        <hr>
-        <p id="p3" class="alert">p3</p>
-        <hr>
-        <p id="p4" class="alert">p4</p>
-        <hr />
-        <p id="p5" class="alert">p5</p>
-        <textarea id="ta1" class="form-control"></textarea>
-    </div>
-
-    <div>
-        <img src="images/gnp1.webp" height="300"/>
-
-    </div>
+    <!--<center>
+        <div>
+            <img src="images/gnp1.webp" height="300" />
+        </div>
+    </center>-->
 
 </body>
 </html>
 
 <script>
-    //p9-11
-    var p1 = document.getElementById("p1");
-    var p2 = document.getElementById("p2");
-    var p3 = document.getElementById("p3");
-    var p4 = document.getElementById("p4");
-    var p5 = document.getElementById("p5");
-    var ta1 = document.getElementById("ta1");
-
-    /*
+    
+    //var p1 = document.getElementById("p1");
+    //var p2 = document.getElementById("p2");
+    //var p3 = document.getElementById("p3");
+    //var p4 = document.getElementById("p4");
+    //var p5 = document.getElementById("p5");
+    //var ta1 = document.getElementById("ta1");
+    //return;
+    
     var jsonData = '{"firstname":"Tom", "age":30, "city":"Taipei"}';
-
     var jsObj = JSON.parse(jsonData);
-
     p1.innerHTML = '' + jsonData;
 
     p2.innerHTML = ' ' + jsObj.firstname + ' ' + jsObj.age + ' '+ jsObj.city;
@@ -65,7 +84,7 @@
 
     var obj_ironMan = JSON.parse(str_ironMan);
     p4.innerHTML = obj_ironMan.name + "";
-    */
+    
 
     //~~~
     //p9-12
@@ -74,7 +93,7 @@
 
     var objArray_num = JSON.parse(jsonArray_num);
 
-    p1.innerHTML = objArray_num.join(" , ");
+    p5.innerHTML = objArray_num.join(" , ");
 
     var txt = "...";
     objArray_num.forEach(
@@ -84,18 +103,18 @@
             txt += ` #${index}:${value}, `;
         }
     );
-    p2.innerHTML = txt;
+    p6.innerHTML = txt;
 
     var num = "";
     for (i = 0; i < objArray_num.length; i++) {
         //num += ` ${objArray_num[i]} `; 
         num += ` ${i}: ${objArray_num[i]}, `; 
     }
-    p2.innerHTML += num;
+    p7.innerHTML = num;
 
     var jsonArray_String = '["M","J","T"]';
     var jsArrayString = JSON.parse(jsonArray_String);
-    p3.innerHTML = jsArrayString.join(" /");
+    p8.innerHTML = jsArrayString.join(" /");
 
     //~~~
     var jsonArray_obj_hero = `[
@@ -114,7 +133,7 @@
             來自
             ${js_array_obj_hero[i].city} <br> `;
     }
-    p4.innerHTML = res;
+    p9.innerHTML = res;
 
 
     var mixed_json = `["立葵", 165, 
@@ -122,15 +141,23 @@
         {"phone":"0952-717-258"}
         ]`;
 
-    p5.innerHTML = mixed_json;
+    p10.innerHTML = mixed_json;
 
     var mixed_obj = JSON.parse(mixed_json);    
 
-    var strt = ""
-    strt = mixed_obj[0] + ' '
+    var stemp = ""
+
+    stemp = mixed_obj[0] + ' '
+        + mixed_obj[1] + ' '
+        + mixed_obj[2] + ' '
+        + mixed_obj[3];
+    ta1.value = stemp;
+
+
+    stemp = mixed_obj[0] + ' '
         + mixed_obj[1] + ' '
         + mixed_obj[2]["三圍"][1] + ' '
         + mixed_obj[3]["phone"];
-    ta1.value = strt;
+    ta2.value = stemp;
 
 </script>
