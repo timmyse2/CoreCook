@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>CH9 JSON </title>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+    <!--<link rel="stylesheet" href="/css/site.css" />-->
+</head>
+<body>
+
+    <h2>JSON Study with Java Script</h2>
+
+    <div>
+        <p id="p1" class="alert">p1</p>
+        <hr>
+        <p id="p2" class="alert">p2</p>
+        <hr>
+        <p id="p3" class="alert">p3</p>
+        <hr>
+        <p id="p4" class="alert">p4</p>
+        <hr />
+        <p id="p5" class="alert">p5</p>
+        <textarea id="ta1" class="form-control"></textarea>
+    </div>
+
+    <div>
+        <img src="images/gnp1.webp" height="300"/>
+
+    </div>
+
+</body>
+</html>
+
+<script>
+    //p9-11
+    var p1 = document.getElementById("p1");
+    var p2 = document.getElementById("p2");
+    var p3 = document.getElementById("p3");
+    var p4 = document.getElementById("p4");
+    var p5 = document.getElementById("p5");
+    var ta1 = document.getElementById("ta1");
+
+    /*
+    var jsonData = '{"firstname":"Tom", "age":30, "city":"Taipei"}';
+
+    var jsObj = JSON.parse(jsonData);
+
+    p1.innerHTML = '' + jsonData;
+
+    p2.innerHTML = ' ' + jsObj.firstname + ' ' + jsObj.age + ' '+ jsObj.city;
+
+
+    var obj_Employee = {
+        employee:
+        {
+            name: "amy", height: 160, bloodtype: "B"
+        }
+    };
+
+    
+    p3.innerHTML = JSON.stringify(obj_Employee);
+
+
+    var str_ironMan = '{"name":"iron man"}';
+
+    var obj_ironMan = JSON.parse(str_ironMan);
+    p4.innerHTML = obj_ironMan.name + "";
+    */
+
+    //~~~
+    //p9-12
+    var jsonArray_num = '[9,5,2,7]';
+    var jsonArray_str = '["lee","jim","elsa"]';
+
+    var objArray_num = JSON.parse(jsonArray_num);
+
+    p1.innerHTML = objArray_num.join(" , ");
+
+    var txt = "...";
+    objArray_num.forEach(
+        function (value, index) {
+            //txt += `index${index}=value, `;  //<= typo in book
+            //txt += ` index${index}=${value}, `;
+            txt += ` #${index}:${value}, `;
+        }
+    );
+    p2.innerHTML = txt;
+
+    var num = "";
+    for (i = 0; i < objArray_num.length; i++) {
+        //num += ` ${objArray_num[i]} `; 
+        num += ` ${i}: ${objArray_num[i]}, `; 
+    }
+    p2.innerHTML += num;
+
+    var jsonArray_String = '["M","J","T"]';
+    var jsArrayString = JSON.parse(jsonArray_String);
+    p3.innerHTML = jsArrayString.join(" /");
+
+    //~~~
+    var jsonArray_obj_hero = `[
+        {"name":"美國隊長", "city":"紐澤西"},
+        {"name":"蜘蛛人", "city":"紐約"},
+        {"name":"驚奇隊長", "city":"???"}
+        ]`;
+    
+    var js_array_obj_hero
+        = JSON.parse(jsonArray_obj_hero);
+    var res = ""
+    for (i = 0; i < js_array_obj_hero.length; i++) {
+        
+        //num += ` ${i}: ${objArray_num[i]}, `;
+        res += ` ${i}_${js_array_obj_hero[i].name}
+            來自
+            ${js_array_obj_hero[i].city} <br> `;
+    }
+    p4.innerHTML = res;
+
+
+    var mixed_json = `["立葵", 165, 
+        {"三圍":[80,70,85]},
+        {"phone":"0952-717-258"}
+        ]`;
+
+    p5.innerHTML = mixed_json;
+
+    var mixed_obj = JSON.parse(mixed_json);    
+
+    var strt = ""
+    strt = mixed_obj[0] + ' '
+        + mixed_obj[1] + ' '
+        + mixed_obj[2]["三圍"][1] + ' '
+        + mixed_obj[3]["phone"];
+    ta1.value = strt;
+
+</script>
