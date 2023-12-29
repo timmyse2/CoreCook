@@ -91,12 +91,89 @@ namespace Core_CodeFirst.Controllers
                     ,Scalesdata =new int[]{10,12,130,1110,13,223,33,22,22,11,22 }}
             };
 
-
-            //return View();
             return carScaleNumbers;
             //return Content("carScaleNumbers " + carScaleNumbers);
+            //return View();
         }
 
+        //<IEnumerable<CarScales>
+        public ActionResult<IEnumerable<Utility.CarScales>> GetScaleNumberRnd()
+        {
+            //var rnd1 = Utility.CarScales.GetNumbers(12);
+            var rnd1 = GetNumbers(12); //::try to get function, not method
+            List<Utility.CarScales> carScaleNumbers = new List<Utility.CarScales>
+            {
+                new Utility.CarScales{
+                    Id =1, Car="BMW",Scalesdata = rnd1}
+                ,
+                new Utility.CarScales{
+                    Id =2, Car="BENZ",Scalesdata =GetNumbers(12)}
+                ,
+                new Utility.CarScales{
+                    Id =3, Car="Toyota",Scalesdata =GetNumbers(12)}
+            };
+
+            return carScaleNumbers; //:: for <IEnumerable<CarScales>
+        }
+
+
+        public IActionResult GetTempRnd()
+        //public ActionResult<IEnumerable<Location>> GetTempRnd()
+        {
+            string[] Labels = { "一", "二", "三", "四", "五", "六", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
+
+            var jsonLables =
+                Newtonsoft.Json.JsonConvert.SerializeObject(Labels);
+
+            ViewData["JsonLabels"] = jsonLables;
+
+            List<Location> Locs = new List<Location>
+            {
+                new Location {City="京都", Temperature =GetNumbersDouble(12)}
+                ,new Location {City="青山", Temperature =GetNumbersDouble(12)}
+                ,new Location {City="東京", Temperature =GetNumbersDouble(12)}
+            };
+
+            string jsonLocations = Newtonsoft.Json.JsonConvert.SerializeObject(Locs);
+            ViewData["JsonLocations"] = jsonLocations;
+            //return View(Locs);
+            //return Locs; //:: for IEnumerable<Location>
+            return View("GetTemp", Locs); //::share the same view
+        }
+        //::copy function from class method
+        public int[] GetNumbers(int num)
+        {
+            Random rdn = new Random(Guid.NewGuid().GetHashCode());
+            int[] Numbs = new int[num];
+
+            for (int i = 0; i < num; i++)
+            {
+                Numbs[i] = rdn.Next(1, 500);
+            }
+
+            //var array = new int[]
+            //{
+            //    9,5,2,7
+            //};
+
+            var array = Enumerable.Range(1, num)
+                .Select(x => rdn.Next(1, 500)).ToArray();
+            rdn = null;
+            return array;
+        }
+
+        //::make a function for double type
+        public double[] GetNumbersDouble(int num)
+        {
+            Random rdn = new Random(Guid.NewGuid().GetHashCode());
+            double[] Numbs = new double[num]; //::Ddata number
+            for (int i = 0; i < num; i++)
+            {
+                double dt = (float)rdn.Next(1, 200) / 10;                
+                Numbs[i] = Math.Round(dt, 1); //:: value range
+            }
+            return Numbs;
+        }
 
     }
 }

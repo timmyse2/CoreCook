@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>CH9 JQ Ajax </title>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+    <!--<link rel="stylesheet" href="/css/site.css" />-->
+    <style>
+        body {
+            margin: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>jQuery Ajax Sample</h1>
+    <ul>
+        <li>
+            <button id="btn_ajax" class="btn btn-info">Use AJAX</button>
+            <button id="btn_reset" class="btn btn-danger">Reset</button>
+        </li>
+        <li>
+            <div id="d_res" class="alert alert-info">d_res</div>
+        </li>
+        <li>
+            <div id="d_url" class="alert alert-info">d_url</div>
+
+        </li>
+        <!--<li>
+            <div id="txt_d1" class="text-info">d1</div>
+        </li>
+        <li>
+            <div id="txt_d2" class="text-info">d2</div>
+        </li>
+
+        <li>
+            <div id="txt_d3" class="text-info">d3</div>
+        </li>
+
+        <li>
+            <p id="p1">p1</p>
+        </li>
+        <li>
+            <p id="p2">p2</p>
+        </li>-->
+    </ul>
+
+    <h1>Javascript FetchXhr</h1>
+    <ul>
+        <li>
+            <button id="btnFetchGet" class="btn btn-info">btnFetchGet</button>
+            <button id="btnFetchPost" class="btn btn-info">btnFetchPost</button>
+            <button id="btn_JSReset" class="btn btn-danger">Reset</button>
+        </li>
+        <li><div id="res2" class="alert alert-info">res2 for js</div></li>
+        <li><div id="url2" class="alert alert-info">url2 for js</div></li>
+    </ul>
+
+</body>
+
+</html>
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>    
+    //var p2 = document.getElementById("p2");
+    var d_url = document.getElementById("d_url");
+
+    //::jQuery
+    $().ready(function () {
+        console.log('jq ready');
+        var btn_ajax = $('#btn_ajax');
+        var btn_reset = $('#btn_reset');
+
+        var d_res = $("#d_res");
+        //var txt_d1 = $('#txt_d1');
+        //var txt_d2 = $('#txt_d2');
+        //var p1 = $('#p1');
+        
+        //$('#btn_ajax').click(function () {
+        btn_ajax.click(function () {
+            console.log('click');
+            var apiurl = '/json/GetScaleNumberRnd';
+                //'/json/GetScaleNumber';
+            $.ajax({
+                url: apiurl,
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    console.log('response');
+                    console.log(response);
+
+                    var jsonRes = JSON.stringify(response);
+
+                    //d_res.innerHTML = jsonRes; //::syntax for ID declared by Java Script
+                    d_res.text(jsonRes); //:: syntax for ID declared by jQuery
+
+                    d_url.innerHTML = apiurl;
+
+                    //txt_d1.val = response;
+                    //txt_d1.val(response);
+                    //txt_d1.hide();
+                    //txt_d1.text('response ' + jsonRes);
+
+
+                    //txt_d2.text(jsonRes);
+                    ////txt_d2.innerHTML = JSON.stringify(response);
+                    ////:.innerHTML is not work?
+
+
+                    //p1.text(jsonRes);
+                    ////p1.text(JSON.stringify(response));
+                    ////p1.html(JSON.stringify(response))
+                    ////p1.html = JSON.stringify(response);                    
+
+                    //p2.innerHTML = jsonRes;
+                    ////ps. p2 set by Java Script, not jQuery
+                    ////p2.text(jsonRes);
+                    ////p2.className = getAlertStyle();
+                    //p2.style.display = "block";
+
+
+                    //txt_d3.innerHTML = jsonRes;                    
+                }
+                , error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('error');
+                    console.log(xhr);
+                }//error
+            });
+        });
+
+        btn_reset.click(function () {
+            d_url.innerHTML = ""; //var declared by java script origin
+            d_res.html(""); //var declared by jquery
+        });
+
+    });
+</script>
+
+<script>
+    //javascript origin - fetch
+    window.onload = function () {
+        console.log('window onload');
+
+        var btnFetch = document.getElementById("btnFetch");
+        var btn_JSReset = document.getElementById("btn_JSReset");
+        var apiurl = '/json/GetScaleNumberRnd';
+
+        btnFetchGet.addEventListener("click", function () {
+            console.log('btn fetch get click');
+
+            fetch(apiurl)
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data)
+                    res2.innerHTML = data;
+                    url2.innerHTML = apiurl;
+                });
+        });
+
+        btn_JSReset.addEventListener("click", function () {
+            console.log('js reset click');
+            res2.innerHTML = "";
+            url2.innerHTML = "";
+        });
+
+        btnFetchPost.addEventListener("click", function () {
+            console.log('btn fetch post click');
+            url2.innerHTML = apiurl;
+            let request = new Request(
+                apiurl, {
+                    method: "POST"//"post"
+                    //, headers: {
+                    //    "Content-type":"application/json; charset=UTF-8"
+                    //}
+                    //, body:JSON.stringify("{}")
+                }
+            );
+            fetch(request)
+                .then(response => {
+                    console.log(response);
+                    if (response.ok) {
+                        //::Do not this statement, it reads data then next statemnt could not read data!
+                        /////console.log(response.json()); 
+                        return response.json(); //::key?
+                    }
+                    else {//error                        
+                        console.log("error in fetch");
+                    }
+                })
+                .then(data => {
+                    console.log("data");
+                    console.log(data);
+                    res2.innerHTML = JSON.stringify(data);                    
+                });
+        });
+
+    };
+</script>
