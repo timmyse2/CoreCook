@@ -72,6 +72,22 @@ namespace Core_CodeFirst.Controllers
         // GET: Makers/Create
         public IActionResult Create()
         {
+
+            //::login check
+            //use session
+            byte[] bv = null;
+            HttpContext.Session.TryGetValue("IsAdmin", out bv);
+            string _str = null;
+            if (bv != null) _str = System.Text.Encoding.Default.GetString(bv);
+            //if (HttpContext.Request.Cookies["IsAdmin"] != "YES")
+            if (_str != "YES")
+            {
+                TempData["action_msg"] = "You have no power here | 權限不足請登入";
+                //return RedirectToAction("Index");
+                return RedirectToAction("login", "comics");
+                //return Content("You have no power here!");
+            }
+
             return View();
         }
 
@@ -176,7 +192,7 @@ namespace Core_CodeFirst.Controllers
                 //return NotFound();
             }
 
-
+            //::login check
             byte[] bv = null;
             HttpContext.Session.TryGetValue("IsAdmin", out bv);
             string _str = null;
@@ -206,6 +222,20 @@ namespace Core_CodeFirst.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            //::login check
+            byte[] bv = null;
+            HttpContext.Session.TryGetValue("IsAdmin", out bv);
+            string _str = null;
+            if (bv != null) _str = System.Text.Encoding.Default.GetString(bv);
+            //if (HttpContext.Request.Cookies["IsAdmin"] != "YES")
+            if (_str != "YES")
+            {
+                TempData["action_msg"] = "You have no power here | 權限不足請登入";
+                return RedirectToAction("Index");
+                //return Content("You have no power here!");
+            }
+
+
             var maker = await _context.Makers.FindAsync(id);
             _context.Makers.Remove(maker);
             await _context.SaveChangesAsync();

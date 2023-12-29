@@ -9,7 +9,7 @@ namespace Core_CodeFirst.Models
     {
         public string City { get; set; }
         public double[] Temperature { get; set; }
-        //::book p9-22
+        //::book c9-p21~22
 
         //public int[] GetNumber()
         //{

@@ -47,7 +47,7 @@
         <dd>
             @*<button class="btn btn-default btn-info">按我查詢</button>*@
             <a class="btn btn-default btn-info"
-               href="~/comics/?makerid=@Model.MakerId" style="margin:2px">按我查詢</a>
+               href="~/comics/?makerid=@Model.MakerId" style="margin:2px">按我篩選作品查詢</a>
         </dd>
         
     </dl>
@@ -55,8 +55,8 @@
 <div>
     @if (isAdmin)
     {
-        <a asp-action="Edit" asp-route-id="@Model.MakerId">Edit</a>
+        <a asp-action="Edit" asp-route-id="@Model.MakerId">編輯</a>
         <c>|</c>
     } 
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">返回創作者清單</a>
 </div>
