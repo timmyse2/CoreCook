@@ -45,7 +45,7 @@
         </li>-->
     </ul>
 
-    <h1>Javascript FetchXhr</h1>
+    <h1>Javascript Fetch Sample</h1>
     <ul>
         <li>
             <button id="btnFetchGet" class="btn btn-info">btnFetchGet</button>
@@ -54,6 +54,21 @@
         </li>
         <li><div id="res2" class="alert alert-info">res2 for js</div></li>
         <li><div id="url2" class="alert alert-info">url2 for js</div></li>
+    </ul>
+
+    <h1>Javascript Xhr Sample</h1>
+    <ul>
+        <li>
+            <button id="btnXhrGetJS" class="btn btn-default">btnXhrGetJS</button>
+            <button id="btnXhrPostJS" class="btn btn-default">btnXhrPostJS</button>
+            <button id="btnXhrResetJS" class="btn btn-danger">btnXhrResetJS</button>
+        </li>
+        <li>
+            <div id="res3" class="alert alert-info">res3 for js xhr</div>
+        </li>
+        <li>
+            <div id="url3" class="alert alert-info">url3 for js</div>
+        </li>
     </ul>
 
 </body>
@@ -65,7 +80,6 @@
 <script>    
     //var p2 = document.getElementById("p2");
     var d_url = document.getElementById("d_url");
-
     //::jQuery
     $().ready(function () {
         console.log('jq ready');
@@ -138,11 +152,11 @@
 </script>
 
 <script>
-    //javascript origin - fetch
+    //javascript origin - fetch | xhr
     window.onload = function () {
         console.log('window onload');
 
-        var btnFetch = document.getElementById("btnFetch");
+        var btnFetchGet = document.getElementById("btnFetchGet");
         var btn_JSReset = document.getElementById("btn_JSReset");
         var apiurl = '/json/GetScaleNumberRnd';
 
@@ -182,7 +196,7 @@
                     if (response.ok) {
                         //::Do not this statement, it reads data then next statemnt could not read data!
                         /////console.log(response.json()); 
-                        return response.json(); //::key?
+                        return response.json(); //::key
                     }
                     else {//error                        
                         console.log("error in fetch");
@@ -193,6 +207,55 @@
                     console.log(data);
                     res2.innerHTML = JSON.stringify(data);                    
                 });
+        });
+
+        //::xhr
+
+        btnXhrResetJS.addEventListener("click", function () {
+            console.log("reset");
+            res3.innerHTML = "reset";
+            url3.innerHTML = "reset";
+            //btnXhrGetJS.innerHTML = "reset";
+        });
+
+
+        var res3 = document.getElementById("res3");
+
+        btnXhrGetJS.addEventListener("click", function () {
+            console.log("get click xhr");
+
+            let xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                var res = this.response;
+                console.log(res);
+                res3.innerHTML = JSON.stringify(res);                
+                //getAlertStyle();
+                //res3.style
+                url3.innerHTML = apiurl;
+            };
+
+            xhr.open("GET", apiurl);
+            xhr.responseType = "json";
+            xhr.send();
+        });
+
+        btnXhrPostJS.addEventListener("click", function () {
+            console.log("post click xhr");
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", apiurl);
+            //xhr.responseType = "json";
+            xhr.responseType = "text";
+            xhr.send();
+
+            xhr.onload = function () {
+                res3.style.display = "block";
+                //res3.innerHTML = this.response;
+                res3.innerHTML = JSON.stringify(this.response);
+                url3.innerHTML = apiurl;
+            };
+
+            
         });
 
     };
