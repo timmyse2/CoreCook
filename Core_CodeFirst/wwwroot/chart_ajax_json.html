@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>CH9 JQ Ajax </title>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+    <!--<link rel="stylesheet" href="/css/site.css" />-->
+    <style>
+        body {
+            margin: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="home/">Home</a>
+    <h1>Chart Ajax JSON</h1>
+
+    <select id="urlSelect" class="form-control">
+        <option value="/json/GetScaleNumber">JSON資料(固定值)</option>
+        <option value="/json/GetScaleNumberRnd">JSON資料(亂數)</option>
+        <option value="tbd">TBD</option>
+    </select>
+    <button id="btn_ajax" class="btn btn-info">Get data by AJAX Post</button>
+    <button id="btn_reset" class="btn btn-danger">Reset</button>
+    <div id="d_res" class="alert alert-success">res</div>
+    <div id="d_url" class="alert alert-info">url</div>
+
+
+
+    <div id="cardPanel" class="table-bordered">
+        <canvas id="chartCanvas"></canvas>
+    </div>
+
+</body>
+
+</html>
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+<script>
+
+    //::jQuery
+    $().ready(function () {
+        console.log('jq ready');
+        var btn_ajax = $('#btn_ajax');
+        var btn_reset = $('#btn_reset');
+        var d_url = $('#d_url');
+        var d_res = $("#d_res");
+        var apiurl = '/json/GetScaleNumberRnd';
+        var urlSelect = $("#urlSelect");
+
+        btn_ajax.click(function () {
+            console.log('click');
+            //var apiurl = '/json/GetScaleNumberRnd';
+            //'/json/GetScaleNumber';
+            $.ajax({
+                url: apiurl,
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    console.log('response');
+                    if (response != null) {
+                        var jsonRes = JSON.stringify(response);
+                        d_res.text(jsonRes); //:: syntax for ID declared by jQuery                    
+                        //d_url.text(apiurl);
+                        jsLocArray = response; ////jsonRes;
+                        drawChart();
+                    }
+                    else {
+                        console.log('Warning! response is NULL');
+                        d_res.text('Warning! response is NULL');
+                    }
+                }
+                , error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('error');
+                    console.log(xhr);
+                    d_res.text("error");
+                    
+                }//error
+            });
+        });
+
+        btn_reset.click(function () {
+            //d_url.innerHTML = ""; //var declared by java script origin
+            d_res.html("[res]"); //var declared by jquery
+            //d_url.html("");
+            //d_url.text('[url]');
+            hideCanvas();
+        });
+
+
+        var canvas = document.getElementById("chartCanvas");
+        var ctx_1 = canvas.getContext("2d");
+        var chart1 = null;
+        var jsLocArray = null;
+        function drawChart() {
+            console.log("drawing");
+
+            var jsMoths = ["JAN", "FEB", "MAR", "AP", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+             //jsLocArray = [{ "City": "NewYork", "Temperature": [0.0, 5.0, 3.0, 0.5, 9.0, 7.2, 12.0, 0.0, 0.0, 0.0, 1.0, -2.0] }, { "City": "Taipei", "Temperature": [15.0, 20.0, 25.0, 23.0, 20.0, 29.0, 27.0, 22.0, 20.0, 10.0, 12.0, 11.0] }, { "City": "Tokyo", "Temperature": [10.0, 15.0, 13.0, 10.0, 19.0, 11.0, 12.0, 10.0, 5.0, 7.0, 2.0, 1.0] }];
+
+            if (chart1 != null)
+                chart1.destroy();
+
+            console.log(jsLocArray);
+            console.log(jsLocArray[0]);
+
+            chart1 = new Chart(ctx_1, {
+                type: "line",
+                data: {
+                    labels: jsMoths,
+                    datasets: [{
+                        label: jsLocArray[0].car
+                        , data: jsLocArray[0].scalesdata
+                        , borderColor: 'rgb(255,0,0)'
+                        , pointStyle: 'circle'
+                        , fill: false
+                        , pointHoverRadius: 10
+                    }, {
+                        label: jsLocArray[1].car
+                        , data: jsLocArray[1].scalesdata
+                        , borderColor: 'rgb(0,255,0)'
+                        , fill: false
+                    }, {
+                        label: jsLocArray[2].car
+                        , data: jsLocArray[2].scalesdata
+                        , borderColor: 'rgb(0,0,255)'
+                        , fill: false
+                    }
+                    ]
+                },
+                options: {
+                    responsive: true, /*rescale auto?*/
+                    title: {
+                        display: true,
+                        fontSize: 16,
+                        text: 'Test data from JSON'
+                    }
+                }
+            });
+
+            document.getElementById("cardPanel").style.display = "block";
+        }
+
+        function hideCanvas() {
+            document.getElementById("cardPanel").style.display = "none";
+        }
+
+        function setUrl() {
+            console.log("set " + urlSelect.val());            
+            apiurl = urlSelect.val();
+            d_url.text(apiurl);
+            hideCanvas();
+        }
+
+        urlSelect.change(function () {
+            console.log("change");            
+            setUrl();            
+
+        });
+
+    }); //$().ready
+</script>
+
