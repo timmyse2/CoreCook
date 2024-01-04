@@ -7,11 +7,11 @@ namespace Core_CodeFirst.Models
 {
     public class Utility //: IUtility ???
     {
-        public class CarScales
+        public class CarSales
         {
             public int Id { get; set; }
             public string Car { get; set; }
-            public int[] Scalesdata { get; set; }
+            public int[] Salesdata { get; set; }
 
             //move to here from outside
             //public int[] GetNumbers(int num)

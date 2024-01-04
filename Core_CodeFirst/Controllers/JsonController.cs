@@ -72,48 +72,48 @@ namespace Core_CodeFirst.Controllers
         }
 
         //::book c9 p26
-        //public IActionResult GetScaleNumber()
-        //public ActionResult GetScaleNumber()
-        public ActionResult<IEnumerable<Utility.CarScales>> GetScaleNumber()
+        //public IActionResult GetSalesNumber()
+        //public ActionResult GetSalesNumber()
+        public ActionResult<IEnumerable<Utility.CarSales>> GetSalesNumber()
         {
-            List<Utility.CarScales> carScaleNumbers = new List<Utility.CarScales>
+            List<Utility.CarSales> carSaleNumbers = new List<Utility.CarSales>
             {
-                new Utility.CarScales{
+                new Utility.CarSales{
                     Id =1, Car="BMW"
-                    ,Scalesdata =new int[]{120,112,230,110,123,123,33,22,22,11,22 }}
+                    ,Salesdata =new int[]{120,112,230,110,123,123,33,22,22,11,22 }}
                 ,
-                new Utility.CarScales{
+                new Utility.CarSales{
                     Id =2, Car="BENZ"
-                    ,Scalesdata =new int[]{120,112,230,110,13,133,33,22,22,11,223 }}
+                    ,Salesdata =new int[]{120,112,230,110,13,133,33,22,22,11,223 }}
                 ,
-                new Utility.CarScales{
+                new Utility.CarSales{
                     Id =3, Car="Toyota"
-                    ,Scalesdata =new int[]{10,12,130,1110,13,223,33,22,22,11,22 }}
+                    ,Salesdata =new int[]{10,12,130,1110,13,223,33,22,22,11,22 }}
             };
 
-            return carScaleNumbers;
+            return carSaleNumbers;
             //return Content("carScaleNumbers " + carScaleNumbers);
             //return View();
         }
 
-        //<IEnumerable<CarScales>
-        public ActionResult<IEnumerable<Utility.CarScales>> GetScaleNumberRnd()
+        //<IEnumerable<CarSales>
+        public ActionResult<IEnumerable<Utility.CarSales>> GetSalesNumberRnd()
         {
-            //var rnd1 = Utility.CarScales.GetNumbers(12);
+            //var rnd1 = Utility.CarSales.GetNumbers(12);
             var rnd1 = GetNumbers(12); //::try to get function, not method
-            List<Utility.CarScales> carScaleNumbers = new List<Utility.CarScales>
+            List<Utility.CarSales> carSaleNumbers = new List<Utility.CarSales>
             {
-                new Utility.CarScales{
-                    Id =1, Car="BMW",Scalesdata = rnd1}
+                new Utility.CarSales{
+                    Id =1, Car="BMW",Salesdata = rnd1}
                 ,
-                new Utility.CarScales{
-                    Id =2, Car="BENZ",Scalesdata =GetNumbers(12)}
+                new Utility.CarSales{
+                    Id =2, Car="BENZ",Salesdata =GetNumbers(12)}
                 ,
-                new Utility.CarScales{
-                    Id =3, Car="Toyota",Scalesdata =GetNumbers(12)}
+                new Utility.CarSales{
+                    Id =3, Car="Toyota",Salesdata =GetNumbers(12)}
             };
 
-            return carScaleNumbers; //:: for <IEnumerable<CarScales>
+            return carSaleNumbers; //:: for <IEnumerable<CarSales>
         }
 
 

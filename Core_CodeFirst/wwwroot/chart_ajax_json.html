@@ -17,8 +17,8 @@
     <h1>Chart Ajax JSON</h1>
 
     <select id="urlSelect" class="form-control">
-        <option value="/json/GetScaleNumber">JSON資料(固定值)</option>
-        <option value="/json/GetScaleNumberRnd">JSON資料(亂數)</option>
+        <option value="/json/GetSalesNumber">JSON資料(固定值)</option>
+        <option value="/json/GetSalesNumberRnd">JSON資料(亂數)</option>
         <option value="tbd">TBD</option>
     </select>
     <button id="btn_ajax" class="btn btn-info">Get data by AJAX Post</button>
@@ -48,13 +48,12 @@
         var btn_reset = $('#btn_reset');
         var d_url = $('#d_url');
         var d_res = $("#d_res");
-        var apiurl = '/json/GetScaleNumberRnd';
+        var apiurl = '/json/GetSalesNumberRnd';
         var urlSelect = $("#urlSelect");
 
         btn_ajax.click(function () {
             console.log('click');
-            //var apiurl = '/json/GetScaleNumberRnd';
-            //'/json/GetScaleNumber';
+            hideCanvas();
             $.ajax({
                 url: apiurl,
                 type: 'POST',
@@ -113,26 +112,26 @@
                     labels: jsMoths,
                     datasets: [{
                         label: jsLocArray[0].car
-                        , data: jsLocArray[0].scalesdata
+                        , data: jsLocArray[0].salesdata
                         , borderColor: 'rgb(255,0,0)'
                         , pointStyle: 'circle'
                         , fill: false
                         , pointHoverRadius: 10
                     }, {
                         label: jsLocArray[1].car
-                        , data: jsLocArray[1].scalesdata
+                        , data: jsLocArray[1].salesdata
                         , borderColor: 'rgb(0,255,0)'
                         , fill: false
                     }, {
                         label: jsLocArray[2].car
-                        , data: jsLocArray[2].scalesdata
+                        , data: jsLocArray[2].salesdata
                         , borderColor: 'rgb(0,0,255)'
                         , fill: false
                     }
                     ]
                 },
                 options: {
-                    responsive: true, /*rescale auto?*/
+                    responsive: true, /*resize auto*/
                     title: {
                         display: true,
                         fontSize: 16,
@@ -148,6 +147,8 @@
             document.getElementById("cardPanel").style.display = "none";
         }
 
+
+        setUrl();
         function setUrl() {
             console.log("set " + urlSelect.val());            
             apiurl = urlSelect.val();
