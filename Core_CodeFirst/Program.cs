@@ -21,20 +21,21 @@ namespace Core_CodeFirst
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
 
-        public string G_GetMySession(string key)
-        {
-            string _str = null;
-            try
-            {
-            //    byte[] bv = null;
-            //    HttpContext.Session.TryGetValue(key, out bv);
-            //    //::byte[] to string
-            //    _str = System.Text.Encoding.Default.GetString(bv);
-            }
-            catch
-            {
-            }
-            return _str;
-        }
+        ////::study
+        //public string G_GetMySession(string key)
+        //{
+        //    string _str = null;
+        //    try
+        //    {
+        //    //    byte[] bv = null;
+        //    //    HttpContext.Session.TryGetValue(key, out bv);
+        //    //    //::byte[] to string
+        //    //    _str = System.Text.Encoding.Default.GetString(bv);
+        //    }
+        //    catch
+        //    {
+        //    }
+        //    return _str;
+        //}
     }
 }

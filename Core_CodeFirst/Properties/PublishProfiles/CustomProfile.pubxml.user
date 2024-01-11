@@ -10,7 +10,10 @@
   </PropertyGroup>
   <ItemGroup>
     <DestinationConnectionStrings Include="BlogDbContext">
-      <Value>Server=.\SQLEXPRESS%3bDatabase=DB_Core%3bTrusted_Connection=True%3bMultipleActiveResultSets=true</Value>
+      <Value>Server=.\SQLEXPRESS%3bDatabase=DB_Core%3bUser ID=test%3bPassword=test%3b</Value>
+    </DestinationConnectionStrings>
+    <DestinationConnectionStrings Include="ComicDbContext">
+      <Value>Server=.\SQLEXPRESS%3bDatabase=DB_Core%3bUser ID=coretest%3bPassword=0000%3b</Value>
     </DestinationConnectionStrings>
   </ItemGroup>
 </Project>

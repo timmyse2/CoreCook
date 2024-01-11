@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>CH9 JQ Ajax </title>
-    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css" />
     <!--<link rel="stylesheet" href="/css/site.css" />-->
     <style>
         body {
@@ -95,7 +95,8 @@
         //$('#btn_ajax').click(function () {
         btn_ajax.click(function () {
             console.log('click');
-            var apiurl = '/json/GetSalesNumberRnd';
+            //::path update from /json/ to json/, for IIS deploy
+            var apiurl = 'json/GetSalesNumberRnd';
                 //'/json/GetScaleNumber';
             $.ajax({
                 url: apiurl,
@@ -159,7 +160,7 @@
 
         var btnFetchGet = document.getElementById("btnFetchGet");
         var btn_JSReset = document.getElementById("btn_JSReset");
-        var apiurl = '/json/GetSalesNumberRnd';
+        var apiurl = 'json/GetSalesNumberRnd';
 
         btnFetchGet.addEventListener("click", function () {
             console.log('btn fetch get click');

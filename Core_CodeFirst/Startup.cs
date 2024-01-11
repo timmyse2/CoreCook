@@ -45,8 +45,8 @@ namespace Core_CodeFirst
             services.AddDbContext<ComicDbContext>(
                 options =>
                     options.UseSqlServer(
-                    //Configuration.GetConnectionString("ComicDbContext")
-                    Configuration.GetConnectionString("BlogDbContext")
+                    Configuration.GetConnectionString("ComicDbContext")
+                    //Configuration.GetConnectionString("BlogDbContext")
                     ));
             
             //<Timmy><2023.12.8><add session>
