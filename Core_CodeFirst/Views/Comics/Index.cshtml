@@ -19,10 +19,19 @@
 
 @if (isAdmin)
 {
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
+    <p><a asp-action="Create">Create New</a></p>
 }
+
+@if (isAdmin)
+{
+    <b>@ViewBag.UserAccount</b>
+    <a href="Comics/Logout">登出</a>
+}
+else
+{
+    <a href="Comics/Login">登入</a>
+}
+
 
 @{
     //:: page
@@ -77,8 +86,12 @@
 <br>
 @*@ViewData["page"] | @totalpage  | Total data: @ViewData["rsCount"]*@
 
+<p>
+    <a href="Comics/List">條件清單</a> |
 
-<a href="Comics/List">條件清單</a>
+    <a href="~/comics/card">Card Mode (Beta)</a>
+</p>
+
 @*<a href="Comics/Search">進階搜尋 '' </a> |*@
 
 @{
@@ -175,24 +188,14 @@
 </table>
 
 
-@if (isAdmin)
-{
-    <b>@ViewBag.UserAccount</b>
-    <a href="Comics/Logout">登出</a>
-}
-else
-{
-    <a href="Comics/Login">登入</a>
-}
-
 @*@if (TempData["td_serverMessage"] != null)
-{
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js" charset="GB2312"></script>
-    <script  charset="GB2312" >
-         $(window).on("load", function () {
-             console.log("window load - jquery");
-             alert("@TempData["td_serverMessage"]");
+    {
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js" charset="GB2312"></script>
+        <script  charset="GB2312" >
+             $(window).on("load", function () {
+                 console.log("window load - jquery");
+                 alert("@TempData["td_serverMessage"]");
 
-        });
-    </script>
-}*@
+            });
+        </script>
+    }*@

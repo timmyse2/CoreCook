@@ -24,6 +24,16 @@
     </p>
 }
 
+@if (isAdmin)
+{
+    <b>@ViewBag.UserAccount</b>
+    <a href="Comics/Logout">登出</a>
+}
+else
+{
+    <a href="Comics/Login">登入</a>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -79,13 +89,13 @@
 
 
 @section endJS{
-<script type="text/javascript">
+    <script type="text/javascript">
     window.onload = function () {
-        //alert("@TempData["action_msg"]");        
+        //alert("@TempData["action_msg"]");
         //document.getElementById("bg").style.backgroundColor = "#eee";
         console.log("window onload");
        @*@if (TempData["action_msg"] != null) {
-           //alert("");           
+           //alert("");
        }*@
 
         //::PS. use Html.Raw() here !
@@ -93,7 +103,7 @@
         if (msg1 != "")
             alert(msg1);
     }
-    
+
     @*document.onload = function () {
         console.log("doc load");
         var msg1 = "@TempData["action_msg"]";
@@ -107,7 +117,7 @@
     //document.getElementById("bg").style.backgroundColor = "#F00";
     //document.read
 
-</script>
+    </script>
 }
 
 

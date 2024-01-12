@@ -158,6 +158,120 @@ namespace Core_CodeFirst.Controllers
             //return View(await comicDbContext.ToListAsync());
         }
 
+        public async Task<IActionResult> Card(int? page, int? makerid)
+        {
+            
+            if (makerid <= -1)
+            {
+                //:: Reset search condition from cookie or session
+                HttpContext.Response.Cookies.Delete("makerid");
+                HttpContext.Response.Cookies.Delete("page");
+
+                TempData["td_serverMessage"] = "已清除篩選條件了";
+                return RedirectToAction("Index");
+            }
+
+            int ipp = 20; // item per page = pageSize
+            var ctx0 = _context.Comics
+                    .OrderByDescending(x => x.ComicId)
+                    .Include(c => c.Maker)
+                    .Where(c => c.ComicName != null)
+                    ;
+
+            int _makerid = 0;
+            if (makerid != null) //:: condition
+            {
+                ctx0 = _context.Comics
+                    .OrderByDescending(x => x.ComicId)
+                    .Include(c => c.Maker)
+                    .Where(c => c.MakerId == makerid)
+                    ;
+                HttpContext.Response.Cookies.Append("makerid", makerid.ToString());
+                HttpContext.Response.Cookies.Append("page_comic", "0"); //reset page id                
+                //HttpContext.Response.Cookies.Delete("page");
+                ViewData["maker"] = "依創作者";
+            }
+            else
+            {
+                var _cookeId = HttpContext.Request.Cookies["makerid"];
+                try
+                {
+                    if (_cookeId != null)
+                    {
+                        _makerid = int.Parse(_cookeId);
+                        ctx0 = _context.Comics
+                            .OrderByDescending(x => x.ComicId)
+                            .Include(c => c.Maker)
+                            .Where(c => c.MakerId == _makerid)
+                            ;
+                        ViewData["maker"] = "依創作者";
+                        //HttpContext.Response.Cookies.Append("page", "0"); //reset page id
+                        HttpContext.Response.Cookies.Delete("page_comic");
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+
+            //::@timmy: set page
+            int _page = 0; //pageNum
+            if (page != null)
+                _page = (int)page - 1;
+            else
+            {
+                //::get page from cookie
+                var _cookepage = HttpContext.Request.Cookies["page_comic"];
+                try
+                {
+                    if (_cookepage == null)
+                    {
+                        _page = 0;
+                    }
+                    else
+                    {
+                        _page = int.Parse(_cookepage);
+                    }
+                }
+                catch
+                {
+                    _page = 0;
+                }
+            }
+
+            HttpContext.Response.Cookies.Append("page_comic", _page.ToString());
+
+
+            //~~~~~~~~~~~
+            int totalC
+                //= _context.Comics.Count();            
+                = ctx0.Count();
+
+            int totalPages = totalC / ipp;
+            if (_page >= totalPages)
+                _page = totalPages; //::debug
+            int skipc = _page * ipp; //(totalPages- _page) * ipp;
+            if (skipc <= 0) skipc = 0;
+            //~~~~~~~~~~~
+
+
+            var ctx = ctx0.Skip(skipc).Take(ipp);
+            ViewData["page"] = _page;
+            ViewData["rsCount"] = totalC;
+
+            //if(HttpContext.Request.Cookies["IsAdmin"] == "YES")
+            if (GetMySession("IsAdmin") == "YES")
+            {
+                ViewData["IsAdmin"] = "YES";
+                ViewData["UserAccount"] = HttpContext.Request.Cookies["UserAccount"];
+            }
+
+            TempData.Keep();//[timmy][][study]
+
+            return View(await ctx.ToListAsync());
+        }
+
         //[HttpPost]
         public async Task<IActionResult> List(int? page)
         {

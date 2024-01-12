@@ -1,0 +1,139 @@
+﻿@model IEnumerable<Core_CodeFirst.Models.Comic>
+
+@{
+    ViewData["Title"] = "Index";
+    ViewData["Subject"] = "圖書繪本集";
+
+
+    bool isAdmin = false;
+    if (ViewBag.IsAdmin == "YES")
+    {
+        isAdmin = true;
+    }
+}
+
+<h2>Comic Card</h2>
+<h5 class="text-danger"> @TempData["td_serverMessage"]</h5>
+
+@if (isAdmin)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+@{
+    //:: page
+    int totalpage = 0; int ipp = 20;
+    int pageNum = (int)ViewData["page"];
+    if (ViewData["rsCount"] != null)
+    {
+        //totalpage = (int)Math.Ceiling((double)( (int)ViewData["rsCount"] / ipp));
+        totalpage = (int)ViewData["rsCount"] / ipp + 1;
+        <ul class="pagination">
+
+            @{
+                if (pageNum > 0)
+                {
+                    <li class="page-item"><a class="page-link" href="?page=@(pageNum)"><</a></li>
+                }
+                else
+                {
+                    <li class="page-item disabled"><a class="page-link"><</a></li>
+                }
+
+                for (int i = 0; i < totalpage; i++)
+                {
+                    if (i == pageNum)
+                    {
+                        <li class="page-item active">
+                            <a class="page-link">@(i + 1)</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a href="?page=@(i + 1)" class="page-link"> @(i + 1) </a>
+                        </li>
+                    }
+                } //for
+                if (pageNum < totalpage - 1)
+                {
+                    <li class="page-item"><a class="page-link" href="?page=@(pageNum+2)">></a></li>
+                }
+                else
+                {
+                    <li class="page-item disabled"><a class="page-link">></a></li>
+                }
+
+            }
+
+        </ul>
+    }
+}
+
+<br>
+
+@*<a href="Comics/List">條件清單</a>*@
+<a asp-action="List" asp-controller="comics">條件清單</a>
+
+@{
+    if (ViewData["maker"] != null)
+    {
+        <label>進階搜尋' @ViewData["maker"] '</label>
+        <a href="?makerid=-1" class="btn  btn-info">清除條件</a>
+    }
+}
+
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-3">
+            <a asp-action="Details" asp-route-id="@item.ComicId">
+                <span>@item.ComicName</span>
+                <div style="width:200px;height:300px;">
+                    @{
+                        if (item.Image != null)
+                        {
+                            if (item.Image != "")
+                            {
+                                <img src="~/images/@item.Image"
+                                     style="width:200px; border:solid; border-width:1px" />
+                            }
+                        }
+                    }
+                </div>
+            </a>
+        </div>
+    }
+</div>
+
+
+<hr />
+***發車測試中請注意***
+<div class="row">
+
+    @for (int i = 0; i < 25; i++)
+    {
+        <div class="col-sm-3">
+            <span style="align-items:center;">淑女與戰車</span>
+            <img src="~/images/1_7763.jpg"
+                 style="width:200px; height:250px; border:solid; border-width:1px" />
+        </div>
+    }
+</div>
+
+
+
+
+@if (isAdmin)
+{
+    <b>@ViewBag.UserAccount</b>
+    <a href="Comics/Logout">登出</a>
+}
+else
+{
+    <a href="Comics/Login">登入</a>
+}
