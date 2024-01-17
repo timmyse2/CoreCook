@@ -93,14 +93,14 @@
         <div class="col-sm-3">
             <a asp-action="Details" asp-route-id="@item.ComicId">
                 <span>@item.ComicName</span>
-                <div style="width:200px;height:300px;">
+                <div style="width:200px;height:300px;;border-radius:5px">
                     @{
                         if (item.Image != null)
                         {
                             if (item.Image != "")
                             {
                                 <img src="~/images/@item.Image"
-                                     style="width:200px; border:solid; border-width:1px" />
+                                     style="width:180px; border:solid; border-width:1px;border-radius:5px" />
                             }
                         }
                     }

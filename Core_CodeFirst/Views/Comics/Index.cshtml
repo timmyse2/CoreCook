@@ -17,6 +17,11 @@
 
 <h5 class="text-danger"> @TempData["td_serverMessage"]</h5>
 
+@*<h1>ViewBag.IsAdmin [ @ViewBag.IsAdmin ]</h1>
+    <h1>ViewData["IsAdmin"] [ @ViewData["IsAdmin"] ]</h1>
+    <h2>ViewData["UserAccount"] [ @ViewData["UserAccount"] ]</h2>*@
+@*<h2>ViewData["ss_trace"] [ @ViewData["ss_trace"] ]</h2>*@
+
 @if (isAdmin)
 {
     <p><a asp-action="Create">Create New</a></p>
@@ -24,12 +29,17 @@
 
 @if (isAdmin)
 {
-    <b>@ViewBag.UserAccount</b>
-    <a href="Comics/Logout">登出</a>
+    <b>@ViewBag.UserAccount</b> 
+    @*<a href="Comics/Logout">登出</a>*@
+    //::ActionLink(this IHtmlHelper helper, string linkText, string actionName, string controllerName);
+    @Html.ActionLink("登出|Logout", "Logout", "Comics");
+    @*@Html.ActionLink("", "登出", "Logout");*@
+    @*@Html.ActionLink("登出|Logout", "", "Logout", "Comics");*@
 }
 else
 {
-    <a href="Comics/Login">登入</a>
+    @*<a href="Comics/Login">登入</a>*@
+    <a asp-action="Login" asp-controller="Comics">登入|Login</a>
 }
 
 
@@ -87,9 +97,9 @@ else
 @*@ViewData["page"] | @totalpage  | Total data: @ViewData["rsCount"]*@
 
 <p>
-    <a href="Comics/List">條件清單</a> |
+    @*<a href="Comics/List">條件清單</a> |*@
 
-    <a href="~/comics/card">Card Mode (Beta)</a>
+    <a href="~/comics/card">卡片模式 | Card Mode (Beta)</a>
 </p>
 
 @*<a href="Comics/Search">進階搜尋 '' </a> |*@
