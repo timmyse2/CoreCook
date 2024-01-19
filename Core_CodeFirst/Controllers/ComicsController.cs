@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Core_CodeFirst.Models;
 
 using System.Diagnostics;
+using Microsoft.Extensions.Configuration; //for IConfiguration
 
 namespace Core_CodeFirst.Controllers
 {
@@ -15,9 +16,17 @@ namespace Core_CodeFirst.Controllers
     {
         private readonly ComicDbContext _context;
 
-        public ComicsController(ComicDbContext context)
+        //::try c14
+        private readonly IConfiguration _config;
+
+        //public ComicsController(ComicDbContext context)
+        //{
+        //    _context = context;
+        //}
+        public ComicsController(ComicDbContext context, IConfiguration config)
         {
-            _context = context;
+            _context = context; //:: for DI
+            _config = config;   //:: for configuration (study for book c14)
         }
 
         //<timmy><><study for session>
@@ -27,15 +36,8 @@ namespace Core_CodeFirst.Controllers
         //public async Task<IActionResult> Index()
         public async Task<IActionResult> Index(int? page, int? makerid)
         {
-            //::session
-            //byte[] bv = new byte[] { 65, 64, 63 };
-            //vb1 = {65,65,65};
-            //HttpContext.Session.Set(sessionKey, vb1);
-            //HttpContext.Session.Set("sk_temp", bv);
-            //value type: byte[] value
-            //byte[] vb2 = null;
-            //HttpContext.Session.TryGetValue(sessionKey, out vb2);
-            //SetMySession("sk_temp", "9527");
+            //ViewData["config"] = _config["Company:NewName"];
+            //ViewData["config"] = _config["ConnectionStrings:BlogDbContext"];
 
             if (makerid <= -1)
             {

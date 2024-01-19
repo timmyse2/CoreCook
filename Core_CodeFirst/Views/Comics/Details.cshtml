@@ -11,6 +11,15 @@
 }
 
 <h2>Details</h2>
+<div>
+    @if (isAdmin)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.ComicId">Edit</a>
+        <c>|</c>
+    }
+    <a asp-action="Index">Back to List</a> |
+    <a asp-action="Card">Back to Card (Beta)</a>
+</div>
 
 <div>
     <h4>Comic</h4>
@@ -26,7 +35,7 @@
             @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Image)<br/>
+            @Html.DisplayFor(model => model.Image)<br />
             @{
                 if (Model.Image != null)
                 {
@@ -53,13 +62,4 @@
             (ID: @Html.DisplayFor(model => model.Maker.MakerId))
         </dd>
     </dl>
-</div>
-<div>
-    @if (isAdmin)
-    {
-        <a asp-action="Edit" asp-route-id="@Model.ComicId">Edit</a>
-        <c>|</c>
-    }
-    <a asp-action="Index">Back to List</a> |
-    <a asp-action="Card">Back to Card (Beta)</a>
 </div>

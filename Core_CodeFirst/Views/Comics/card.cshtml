@@ -15,6 +15,20 @@
 <h2>Comic Card</h2>
 <h5 class="text-danger"> @TempData["td_serverMessage"]</h5>
 
+
+@if (isAdmin)
+{
+    <b>@ViewBag.UserAccount</b>
+    @*<a href="Comics/Logout">登出</a>*@
+    <a asp-action="Logout">登出</a>
+}
+else
+{
+    @*<a href="Comics/Login">登入</a>*@
+    <a asp-action="Login">登入</a>
+}
+<br />
+
 @if (isAdmin)
 {
     <p>
@@ -72,10 +86,10 @@
     }
 }
 
-<br>
 
 @*<a href="Comics/List">條件清單</a>*@
-<a asp-action="List" asp-controller="comics">條件清單</a>
+@*<a asp-action="List" asp-controller="comics">條件清單</a>*@
+<br /><a asp-action="index">列表模式 | List Mode</a><br />
 
 @{
     if (ViewData["maker"] != null)
@@ -90,17 +104,18 @@
 
     @foreach (var item in Model)
     {
-        <div class="col-sm-3">
+        <div class="col-sm-3 col-xs-6">
             <a asp-action="Details" asp-route-id="@item.ComicId">
                 <span>@item.ComicName</span>
-                <div style="width:200px;height:300px;;border-radius:5px">
+                <div style="width:200px;height:300px;border-radius:10px;">
                     @{
                         if (item.Image != null)
                         {
                             if (item.Image != "")
                             {
                                 <img src="~/images/@item.Image"
-                                     style="width:180px; border:solid; border-width:1px;border-radius:5px" />
+                                     loading="lazy"
+                                     style="width:180px; border:solid; border-width:1px;border-radius:10px" />
                             }
                         }
                     }
@@ -117,23 +132,14 @@
 
     @for (int i = 0; i < 25; i++)
     {
-        <div class="col-sm-3">
-            <span style="align-items:center;">淑女與戰車</span>
-            <img src="~/images/1_7763.jpg"
-                 style="width:200px; height:250px; border:solid; border-width:1px" />
+        <div class="col-sm-3 col-xs-6">
+            <span style="align-items:center;">淑女與戰車 泳裝回</span><br />
+            <div style="width:200px;height:300px;border-radius:10px;">
+                <img src="~/images/1_7763.jpg"
+                     style="width:180px; border:solid; border-width:1px;border-radius:10px" />
+            </div>
         </div>
     }
 </div>
 
 
-
-
-@if (isAdmin)
-{
-    <b>@ViewBag.UserAccount</b>
-    <a href="Comics/Logout">登出</a>
-}
-else
-{
-    <a href="Comics/Login">登入</a>
-}
