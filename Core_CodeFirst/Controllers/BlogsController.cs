@@ -39,6 +39,8 @@ namespace Core_CodeFirst.Controllers
         {
             if (id == null)
             {
+                TempData["action_msg"] = "找不到找不到";
+                return RedirectToAction("Index");
                 return NotFound();
             }
 
@@ -50,6 +52,8 @@ namespace Core_CodeFirst.Controllers
 
             if (blog == null)
             {
+                TempData["action_msg"] = "找不到";
+                return RedirectToAction("Index");
                 return NotFound();
             }
 
