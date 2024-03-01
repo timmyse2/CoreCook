@@ -9,9 +9,13 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+找到資料: @Model.Count()
+筆
 <table class="table">
     <thead>
         <tr>
+            <th>@Html.DisplayNameFor(model => model.ComicId)</th>
             <th>
                 @Html.DisplayNameFor(model => model.ComicName)
             </th>
@@ -28,42 +32,51 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model)
-{
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ComicName)
-            </td>
-            <td>
-                @*@Html.DisplayFor(modelItem => item.Image)*@
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @*@Html.DisplayFor(modelItem => item.Maker.MakerId)*@
-                @item.MakerId
-                @{ 
-                    if (item.Maker == null)
-                    {
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(mi => item.ComicId)</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComicName)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.Image)*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.Maker.MakerId)*@
+                    @item.MakerId
+                    @{
+                        if (item.Maker == null)
+                        {
 
+                        }
+                        else
+                        {
+                            if (item.Maker.Image != null)
+                            {
+                                if (item.Maker.Image != "")
+                                {
+                                    <img src="~/images/@item.Maker.Image"
+                                         style="width:60px; border:solid; border-width:1px;border-radius:10px" />
+                                }
+                            }
+                            @item.Maker.UserName
+                        }
                     }
-                    else
-                    {
-                        @item.Maker.UserName
-                    }
-                }
-                
 
-                @*@item.Maker.UserName*@
 
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ComicId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ComicId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ComicId">Delete</a>
-            </td>
-        </tr>
-}
+                    @*@item.Maker.UserName*@
+
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ComicId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ComicId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ComicId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

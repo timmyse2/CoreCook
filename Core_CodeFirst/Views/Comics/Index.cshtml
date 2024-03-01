@@ -95,7 +95,7 @@ else
 <p>
     @*<a href="Comics/List">條件清單</a> |*@
 
-    <a href="~/comics/card">卡片模式 | Card Mode (Beta)</a>
+    <a href="~/comics/card">卡片模式 | Card Mode</a>
 </p>
 
 @*<a href="Comics/Search">進階搜尋 '' </a> |*@
@@ -167,7 +167,8 @@ else
 
                     <a asp-controller="Makers" asp-action="Details" asp-route-id="@item.MakerId">
                         <!--  target="_blank">-->
-                        @{
+                        @if(item.Maker!=null)
+                        {
                             if (item.Maker.Image != null)
                             {
                                 if (item.Maker.Image != "")
@@ -175,6 +176,10 @@ else
                                     <img src="~/images/@item.Maker.Image" style="width:50px; border:solid; border-width:1px" /><br />
                                 }
                             }
+                        }
+                        else
+                        {
+                            @item.MakerId 
                         }
                         @Html.DisplayFor(m => item.Maker.UserName)
                     </a>

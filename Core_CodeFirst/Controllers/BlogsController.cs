@@ -41,7 +41,7 @@ namespace Core_CodeFirst.Controllers
             {
                 TempData["action_msg"] = "找不到找不到";
                 return RedirectToAction("Index");
-                return NotFound();
+                //return NotFound();
             }
 
             var blog = await _context.Blogs

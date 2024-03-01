@@ -34,8 +34,7 @@ namespace Core_CodeFirst
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            //::@Timmy
-            //string connectString
+            #region @Timmy connectString
             services.AddDbContext<BlogDbContext>(
                 options =>
                     options.UseSqlServer(
@@ -48,9 +47,9 @@ namespace Core_CodeFirst
                     Configuration.GetConnectionString("ComicDbContext")
                     //Configuration.GetConnectionString("BlogDbContext")
                     ));
-            
-            //<Timmy><2023.12.8><add session>
-            services.AddDistributedMemoryCache();            
+            #endregion
+            #region <Timmy><2023.12.8><add session>
+            services.AddDistributedMemoryCache();
             services.AddSession(
                 options =>
                 {
@@ -59,7 +58,7 @@ namespace Core_CodeFirst
                     options.IdleTimeout = TimeSpan.FromMinutes(15); //15 min
                     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 });
-            //<><><>
+            #endregion
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -81,14 +80,14 @@ namespace Core_CodeFirst
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            //<Timmy><2023.12.8><add session>
+            #region <Timmy><2023.12.8><add - use session>
             app.UseSession();
-            app.Use(async(context, next) =>
+            app.Use(async (context, next) =>
             {
                 context.Session.SetString("SessionKey", "SessoinValue");
                 await next.Invoke();
             });
-            //<><><>
+            #endregion
 
             app.UseMvc(routes =>
             {
