@@ -352,56 +352,94 @@ namespace Core_CodeFirst.Controllers
             //        .Where(x => x.ComicName != null)
             //        ;
 
-            var jctx2 =
-                from c in _context.Comics
-                .Include(x=>x.Maker)
-                //join m in _context.Makers
-                //on c.MakerId equals m.MakerId
-                //where c.ComicId > 10                
-                orderby c.ComicId descending                 
-                select c              
-                ;
+            //var jctx2 =
+            //    from c in _context.Comics
+            //    .Include(x=>x.Maker)
+            //    //join m in _context.Makers
+            //    //on c.MakerId equals m.MakerId
+            //    //where c.ComicId > 10                
+            //    orderby c.ComicId descending                 
+            //    select c              
+            //    ;
 
-            var jctx =
-                from c in _context.Comics
-                join m in _context.Makers
-                on c.MakerId equals m.MakerId
-                orderby c.ComicId descending
-                //select new
-                //{ 
-                //    ComicId = c.ComicId,
-                //    ComicName = c.ComicName,
-                //    Image = c.Image,
-                //    Description = c.Description,
-                //    MakerId = c.MakerId,
-                //    Maker = c.Maker
-                //};
-                select new
+            //var jctx =
+            //    from c in _context.Comics
+            //    join m in _context.Makers
+            //    on c.MakerId equals m.MakerId
+            //    orderby c.ComicId descending
+            //    //select new
+            //    //{ 
+            //    //    ComicId = c.ComicId,
+            //    //    ComicName = c.ComicName,
+            //    //    Image = c.Image,
+            //    //    Description = c.Description,
+            //    //    MakerId = c.MakerId,
+            //    //    Maker = c.Maker
+            //    //};
+            //    select new
+            //    {
+            //        c.ComicId,
+            //        c.ComicName,
+            //        c.Image,
+            //        c.Description,
+            //        c.MakerId,
+            //        c.Maker
+            //    };
+
+
+            //::p15-16 <Query Syntax>
+            //var ctx = await (from c in _context.Comics
+            //                 select new Comic
+            //                 {
+            //                     ComicId = c.ComicId,
+            //                     ComicName = c.ComicName,
+            //                     Description = c.Description,
+            //                     Image = c.Image,
+            //                     Maker = c.Maker
+            //                 }).ToListAsync();
+
+            //::p15-16 <Method Syntax>
+            //var ctx = await _context.Comics
+            //    .Select(c => new Comic
+            //    {
+            //        ComicId = c.ComicId,
+            //        ComicName = c.ComicName,
+            //        Description = c.Description,
+            //        Image = c.Image,
+            //        Maker = c.Maker
+            //    }).ToListAsync();
+
+            ////::p15-16 <SQL>
+            //var ctx = await _context.Comics
+            //    .FromSql($"select * from dbo.Comics")
+            //    .ToListAsync();
+
+            //::p15-22
+            var ctx = await _context.Comics
+                .OrderByDescending (p=>p.MakerId).ThenBy(p2=>p2.ComicName)
+                .Select(c => new Comic
                 {
-                    c.ComicId,
-                    c.ComicName,
-                    c.Image,
-                    c.Description,
-                    c.MakerId,
-                    c.Maker
-                };
-                
+                    ComicId = c.ComicId,
+                    ComicName = c.ComicName,
+                    Description = c.Description,
+                    Image = c.Image,
+                    MakerId = c.MakerId,
+                    Maker = c.Maker
+                }).ToListAsync();
 
 
-            var result
-                = await jctx.ToListAsync();
-            //= await jctx.Take(3).ToListAsync();
+            //var result = await jctx0.ToListAsync();           
 
-            List<Comic> lc = result
-                .Select(x => new Comic
-                {
-                    ComicId = x.ComicId,
-                    ComicName = x.ComicName,
-                    Image = x.Image,
-                    Description = x.Description,
-                    MakerId = x.MakerId,
-                    Maker = x.Maker
-                }).ToList();
+            //List<Comic> lc = result
+            //    .Select(x => new Comic
+            //    {
+            //        ComicId = x.ComicId,
+            //        ComicName = x.ComicName,
+            //        Image = x.Image,
+            //        Description = x.Description,
+            //        MakerId = x.MakerId,
+            //        Maker = x.Maker
+            //    }).ToList();
 
             //::use method
             //var ctx = _context.Comics.
@@ -423,10 +461,13 @@ namespace Core_CodeFirst.Controllers
             //return Content(result.ToString());
             //return View(Content(result));
 
-            //return Json(result);
+            //return Json(result);            
+            //return View(lc);
             //return View(result);
-            return View(lc);
-            //return View(result);
+
+
+
+            return View(ctx);
         }
 
         /*
@@ -510,6 +551,12 @@ namespace Core_CodeFirst.Controllers
         // GET: Comics/Create
         public IActionResult Create()
         {
+            //::login check
+            if (GetMySession("IsAdmin") != "YES")            
+            {
+                TempData["td_serverMessage"] = "權限不足";
+                return RedirectToAction("Index");
+            }
             //ViewData["MakerId"] = new SelectList(_context.Makers, "MakerId", "MakerId");
             ViewData["MakerId"] = new SelectList(_context.Makers, "MakerId", "UserName");
 

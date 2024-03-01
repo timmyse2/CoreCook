@@ -1,17 +1,12 @@
 ﻿@model IEnumerable<Core_CodeFirst.Models.Comic>
 
 @{
-    ViewData["Title"] = "List";
+    ViewData["Title"] = "LINQ Study";
 }
 
 <h2>List</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
-找到資料: @Model.Count()
-筆
+找到資料: @Model.Count() 筆
 <table class="table">
     <thead>
         <tr>
@@ -28,7 +23,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Maker)
             </th>
-            <th></th>
+            
         </tr>
     </thead>
     <tbody>
@@ -40,7 +35,11 @@
                     @Html.DisplayFor(modelItem => item.ComicName)
                 </td>
                 <td>
-                    @*@Html.DisplayFor(modelItem => item.Image)*@
+                     @if (item.Image != null)
+                     {
+                        <img src="~/images/@Html.DisplayFor(modelItem => item.Image)"
+                             style="width:60px; border:solid; border-width:1px;border-radius:10px" />
+                     }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
@@ -49,11 +48,7 @@
                     @*@Html.DisplayFor(modelItem => item.Maker.MakerId)*@
                     @item.MakerId
                     @{
-                        if (item.Maker == null)
-                        {
-
-                        }
-                        else
+                        if (item.Maker != null)                        
                         {
                             if (item.Maker.Image != null)
                             {
@@ -66,16 +61,7 @@
                             @item.Maker.UserName
                         }
                     }
-
-
-                    @*@item.Maker.UserName*@
-
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ComicId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ComicId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ComicId">Delete</a>
-                </td>
+                </td>                
             </tr>
         }
     </tbody>
