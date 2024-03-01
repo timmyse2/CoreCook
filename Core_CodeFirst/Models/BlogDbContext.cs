@@ -16,7 +16,7 @@ public class BlogDbContext : DbContext
     public virtual DbSet<User> Users { get; set; }
     public virtual DbSet<Blog> Blogs { get; set; }
     public virtual DbSet<Post> Posts { get; set; }
-    //public virtual DbSet<Game> Games { get; set; }
+    public virtual DbSet<Game> Games { get; set; }
 }
 
 

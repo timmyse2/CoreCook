@@ -17,17 +17,17 @@ namespace Core_CodeFirst.Controllers
         private readonly ComicDbContext _context;
 
         //::try c14
-        private readonly IConfiguration _config;
+        //private readonly IConfiguration _config;
 
-        //public ComicsController(ComicDbContext context)
-        //{
-        //    _context = context;
-        //}
-        public ComicsController(ComicDbContext context, IConfiguration config)
+        public ComicsController(ComicDbContext context)
         {
-            _context = context; //:: for DI
-            _config = config;   //:: for configuration (study for book c14)
+            _context = context;
         }
+        //public ComicsController(ComicDbContext context, IConfiguration config)
+        //{
+        //    _context = context; //:: for DI
+        //    _config = config;   //:: for configuration (study for book c14)
+        //}
 
         //<timmy><><study for session>
         //private string sessionKey = "session_key";
@@ -52,8 +52,8 @@ namespace Core_CodeFirst.Controllers
             int ipp = 5; // item per page = pageSize
             var ctx0 = _context.Comics
                     .OrderByDescending(x => x.ComicId)
-                    .Include(c => c.Maker)
-                    .Where(c => c.ComicName != null)
+                    .Include(x => x.Maker)
+                    .Where(x => x.ComicName != null)
                     ;
 
             int _makerid = 0;
@@ -61,8 +61,8 @@ namespace Core_CodeFirst.Controllers
             {
                 ctx0 = _context.Comics
                     .OrderByDescending(x => x.ComicId)
-                    .Include(c => c.Maker)                    
-                    .Where(c => c.MakerId == makerid)
+                    .Include(x => x.Maker)                    
+                    .Where(x => x.MakerId == makerid)
                     ;
                 HttpContext.Response.Cookies.Append("makerid", makerid.ToString());
                 HttpContext.Response.Cookies.Append("page_comic", "0"); //reset page id                
@@ -274,7 +274,7 @@ namespace Core_CodeFirst.Controllers
             return View(await ctx.ToListAsync());
         }
 
-        //[HttpPost]
+        //::for LINQ studying <Timmy 2023 Dec>
         public async Task<IActionResult> List(int? page)
         {
             //::List Compact
@@ -311,26 +311,97 @@ namespace Core_CodeFirst.Controllers
             //            ComicName = cmc.ComicName
             //        };
 
-            var ctx =
-                from c in _context.Comics
-                where c.ComicId >= 15 && c.ComicId <= 20
-                orderby c.MakerId descending, c.ComicId descending
-                select c
-                ;
+            //var ctx =
+            //    from c in _context.Comics
+            //    where c.ComicId >= 1 && c.ComicId <= 20
+            //    orderby c.MakerId descending, c.ComicId descending
+            //    select c
+            //    ;
 
             //join
+            var jctx0 =
+                from c in _context.Comics
+                join m in _context.Makers
+                on c.MakerId equals m.MakerId                
+                where c.ComicId > 10
+                //orderby c.ComicId descending               
+                orderby m.MakerId
+                //select new {c,m}
+                select c                
+                //select new
+                //{
+                //    c.ComicId,
+                //    c.ComicName,
+                //    c.Image,
+                //    c.Description,
+                //    c.MakerId,                    
+                //    c.Maker
+                //    //m.UserName
+                //}
+                //select new
+                //{
+                //    c,
+                //    m
+                //}
+                ;
+
+
+            //var jctx1 = _context.Comics
+            //        .OrderByDescending(x => x.ComicId)
+            //        .Include(x => x.Maker)
+            //        .Where(x => x.ComicName != null)
+            //        ;
+
+            var jctx2 =
+                from c in _context.Comics
+                .Include(x=>x.Maker)
+                //join m in _context.Makers
+                //on c.MakerId equals m.MakerId
+                //where c.ComicId > 10                
+                orderby c.ComicId descending                 
+                select c              
+                ;
+
             var jctx =
                 from c in _context.Comics
                 join m in _context.Makers
                 on c.MakerId equals m.MakerId
-                select c                
-                //select new { }
-                //select m
-                ;
+                orderby c.ComicId descending
+                //select new
+                //{ 
+                //    ComicId = c.ComicId,
+                //    ComicName = c.ComicName,
+                //    Image = c.Image,
+                //    Description = c.Description,
+                //    MakerId = c.MakerId,
+                //    Maker = c.Maker
+                //};
+                select new
+                {
+                    c.ComicId,
+                    c.ComicName,
+                    c.Image,
+                    c.Description,
+                    c.MakerId,
+                    c.Maker
+                };
+                
+
 
             var result
-                //= await ctx.ToListAsync();
                 = await jctx.ToListAsync();
+            //= await jctx.Take(3).ToListAsync();
+
+            List<Comic> lc = result
+                .Select(x => new Comic
+                {
+                    ComicId = x.ComicId,
+                    ComicName = x.ComicName,
+                    Image = x.Image,
+                    Description = x.Description,
+                    MakerId = x.MakerId,
+                    Maker = x.Maker
+                }).ToList();
 
             //::use method
             //var ctx = _context.Comics.
@@ -351,10 +422,14 @@ namespace Core_CodeFirst.Controllers
 
             //return Content(result.ToString());
             //return View(Content(result));
-            return View(result);
+
+            //return Json(result);
+            //return View(result);
+            return View(lc);
+            //return View(result);
         }
 
-
+        /*
         [HttpPost]
         public async Task<IActionResult> List()
         {
@@ -397,7 +472,7 @@ namespace Core_CodeFirst.Controllers
             //    +" ORDER BY ComicId DESC");
             return View(result);
         }
-
+        */
         // GET: Comics/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -414,8 +489,10 @@ namespace Core_CodeFirst.Controllers
             }
 
             var comic = await _context.Comics
-                .Include(c => c.Maker)
-                .FirstOrDefaultAsync(m => m.ComicId == id);
+                //.Include(c => c.Maker)
+                .Include(x => x.Maker)
+                //.FirstOrDefaultAsync(m => m.ComicId == id);
+                .FirstOrDefaultAsync(x => x.ComicId == id);
             if (comic == null)
             {
                 return NotFound();
@@ -673,7 +750,9 @@ namespace Core_CodeFirst.Controllers
             }
 
             var ctx = _context.Admins
-                .Where(a => a.Pwd == pwd && a.Account == account);
+                .Where(a => a.Pwd == pwd && a.Account == account)
+                //.FirstOrDefault()
+                ;
 
 
             //::check failCount <= 3
