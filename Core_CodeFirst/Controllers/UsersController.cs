@@ -23,7 +23,7 @@ namespace Core_CodeFirst.Controllers
         {
             //return View(await _context.Users.ToListAsync());
 
-            var ctx = _context.Users.Include(m => m.vt_Blogs).ToListAsync();       //:: include another model
+            var ctx = _context.Users.Include(m => m.Blogs).ToListAsync();       //:: include another model
 
             if (GetMySession("IsAdmin") == "YES")
             {
@@ -43,7 +43,7 @@ namespace Core_CodeFirst.Controllers
             }
 
             var user = await _context.Users
-                .Include(m=>m.vt_Blogs) //:: include another model
+                .Include(m=>m.Blogs) //:: include another model
                 //.Include(m => m.vt_Posts) //:: include another model
                 .FirstOrDefaultAsync(m => m.Id == id);
 

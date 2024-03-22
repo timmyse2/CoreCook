@@ -36,6 +36,9 @@
                 @*@Html.DisplayNameFor(model => model.User)*@
                 板主(管理者)
             </th>
+            <th>
+                Post Count
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -52,6 +55,12 @@
                 @*@Html.DisplayFor(modelItem => item.User.Id) :*@
                 @Html.DisplayFor(modelItem => item.User.UserName)
                 @*::use user name is better*@
+            </td>
+            <td>
+                @if (item.Posts != null)
+                {
+                    @item.Posts.Count()
+                }
             </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.BlogId">Details</a>

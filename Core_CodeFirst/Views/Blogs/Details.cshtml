@@ -36,10 +36,26 @@
 
 
         </dd>
-        @*<dt>發佈的文章</dt>
+        <dt>發佈的文章數</dt>
         <dd>
-            @Model.Post.BlogId
-        </dd>*@
+            @if (Model.Posts != null)
+            {
+                @Model.Posts.Count()
+                @*<a asp-controller="Posts" asp-action="index">>></a>*@
+                <ul>
+                    @foreach (var x in Model.Posts)
+                    {
+                        <li>
+                            <a asp-controller="Posts"
+                               asp-action="details"
+                               target = "_blank"
+                               asp-route-id="@x.PostId"> @x.Title </a>
+                        </li>
+                    }
+                </ul>
+
+            }
+        </dd>
     </dl>
 </div>
 <div>

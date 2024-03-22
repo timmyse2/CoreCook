@@ -17,8 +17,8 @@ namespace Core_CodeFirst.Models
 
         //::Navigation
         //[ForeignKey("UserId")]        
-        public virtual User User { get; set; }  //with FK 
-        
-        public virtual ICollection<Post> Post { get; set; }
+        public virtual User User { get; set; }  //with FK         
+        //public virtual ICollection<Post> Post { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }

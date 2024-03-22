@@ -21,9 +21,8 @@ namespace Core_CodeFirst.Controllers
         // GET: Blogs
         public async Task<IActionResult> Index()
         {
-            var blogDbContext = _context.Blogs.Include(b => b.User);
-
-            //< h5 class="text-danger" id="bg">@TempData["action_msg"]</h5>
+            //var blogDbContext = _context.Blogs
+            //    .Include(b => b.User);
 
             if (GetMySession("IsAdmin") == "YES")
             {
@@ -31,6 +30,10 @@ namespace Core_CodeFirst.Controllers
                 ViewData["UserAccount"] = HttpContext.Request.Cookies["UserAccount"];
             }
 
+            var blogDbContext = _context.Blogs
+                .Include(b => b.Posts) //try
+                .Include(b => b.User);
+            //< h5 class="text-danger" id="bg">@TempData["action_msg"]</h5>
             return View(await blogDbContext.ToListAsync());
         }
 
@@ -46,7 +49,7 @@ namespace Core_CodeFirst.Controllers
 
             var blog = await _context.Blogs
                 .Include(b => b.User)
-                ////.Include(b=>b.Post) //:: timmy tried to include post
+                .Include(b=>b.Posts) //:: timmy tried to include post
                 .FirstOrDefaultAsync(m => m.BlogId == id);
 
 
@@ -54,7 +57,7 @@ namespace Core_CodeFirst.Controllers
             {
                 TempData["action_msg"] = "找不到";
                 return RedirectToAction("Index");
-                return NotFound();
+                //return NotFound();
             }
 
             return View(blog);

@@ -13,8 +13,10 @@ namespace Core_CodeFirst.Models
 
         ////public int Total { get; set; } // new type
 
-        //::navigation property...
-        public virtual ICollection<Blog> vt_Blogs { get; set; }
+        //::Navigation Property
+        public virtual ICollection<Blog> Blogs { get; set; }
+        //public virtual ICollection<Blog> vt_Blogs { get; set; }
+        ////public virtual Blog Blogs { get; set; }
 
         //public virtual ICollection<Post> vt_Posts { get; set; }
 

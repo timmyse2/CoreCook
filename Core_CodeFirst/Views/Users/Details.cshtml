@@ -26,10 +26,10 @@
         <dt>已建立的BLOG</dt>
         <dd>
             @*<textArea class="form-control">@Model.vt_Posts.Count</textArea>*@
-            @Model.vt_Blogs.Count()
+            @Model.Blogs.Count()
             @{
             <ol>
-                @foreach (var ii in Model.vt_Blogs)
+                @foreach (var ii in Model.Blogs)
                 {
                     <li>
                         <a href="~/blogs/Details/@ii.BlogId">@ii.BlogName</a>

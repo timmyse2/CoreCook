@@ -7,7 +7,7 @@
     //::try the new sort method in view, convert list from model
     var usersMore = (List<User>)Model;
     //usersMore.ForEach(u=>u.Total = u.Id+u.vt_Blogs.Count());
-    var mm = usersMore.OrderByDescending(u => u.vt_Blogs.Count);
+    var mm = usersMore.OrderByDescending(u => u.Blogs.Count);
 
     bool isAdmin = false;
     if (ViewData["IsAdmin"] == "YES")
@@ -65,7 +65,7 @@
                 <td>
 
                     @{
-                        int BlogCount = item.vt_Blogs.Count;
+                        int BlogCount = item.Blogs.Count;
                     }
                     @*@switch (BlogCount)
                     {
