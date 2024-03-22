@@ -15,11 +15,10 @@ namespace Core_CodeFirst.Models
         public string Url { get; set; }
         public int UserId { get; set; } //foreign key
 
-        //::
+        //::Navigation
         //[ForeignKey("UserId")]        
-        public virtual User User { get; set; }
-
-        ////public virtual Post Post { get; set; }
-        //public virtual ICollection<Post> Post { get; set; }
+        public virtual User User { get; set; }  //with FK 
+        
+        public virtual ICollection<Post> Post { get; set; }
     }
 }

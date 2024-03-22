@@ -27,7 +27,8 @@ namespace Core_CodeFirst.Controllers
 
             var postDbContext
                 //= _context.Posts;
-                = _context.Posts.Include(x=>x.virtualBlog);
+                //= _context.Posts.Include(x=>x.virtualBlog);
+                = _context.Posts.Include(x=>x.Blog);
                 //= _context.Posts.Include(x=>x.Blog).Include(y=>y.Blog.User)  ;
                 //= _context.Posts.Include(x => x.Blog).Include(x => x.Blog.User);
             return View(await postDbContext.ToListAsync());
@@ -46,8 +47,10 @@ namespace Core_CodeFirst.Controllers
 
             var post = await _context.Posts
                 //.Include(b => b.Blog) //:: @timmy adds 
-                .Include(m=>m.virtualBlog)
-                .Include(m=>m.virtualBlog.User) //::include more 
+                //.Include(m=>m.virtualBlog)
+                .Include(x => x.Blog)
+                //.Include(m=>m.virtualBlog.User) //::include more 
+                .Include(x => x.Blog.User) //::include more 
                 .FirstOrDefaultAsync(m => m.PostId == id);
             if (post == null)
             {

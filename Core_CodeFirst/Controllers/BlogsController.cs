@@ -119,7 +119,7 @@ namespace Core_CodeFirst.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", blog.UserId);
+            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", blog.UserId);
 
             //::set name in view
             //ViewData["UserName"] = new SelectList(_context.Users, "UserName", "UserName", blog.UserId);

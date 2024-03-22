@@ -13,9 +13,9 @@ namespace Core_CodeFirst.Models
         public int BlogId { get; set; } //::FK
 
         //:: navigation property
-        //public virtual Blog Blog { get; set; }
+        public virtual Blog Blog { get; set; }
 
         //:: try to make more one
-        public virtual Blog virtualBlog { get; set; }
+        //public virtual Blog virtualBlog { get; set; }
     }
 }

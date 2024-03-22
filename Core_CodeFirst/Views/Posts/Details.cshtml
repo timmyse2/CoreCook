@@ -28,16 +28,16 @@
         <dd>
             @*@Model.BlogId :*@
         @{
-            if (Model.virtualBlog != null)
+            if (Model.Blog != null)
             {
-                @Model.virtualBlog.BlogName
+                @Model.Blog.BlogName
             }
         }
 
     </dd>
     <dt>版主(管理者)</dt>
     <dd>
-        @Model.virtualBlog.User.UserName
+        @Model.Blog.User.UserName
     </dd>
     </dl>
 </div>
