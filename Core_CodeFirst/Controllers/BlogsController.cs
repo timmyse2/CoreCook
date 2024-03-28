@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Core_CodeFirst.Models;
 
+using System.Diagnostics;//debug
+
 namespace Core_CodeFirst.Controllers
 {
     public class BlogsController : Controller
@@ -21,19 +23,47 @@ namespace Core_CodeFirst.Controllers
         // GET: Blogs
         public async Task<IActionResult> Index()
         {
-            //var blogDbContext = _context.Blogs
-            //    .Include(b => b.User);
-
             if (GetMySession("IsAdmin") == "YES")
             {
                 ViewData["IsAdmin"] = "YES";
                 ViewData["UserAccount"] = HttpContext.Request.Cookies["UserAccount"];
             }
 
-            var blogDbContext = _context.Blogs
-                .Include(b => b.Posts) //try
-                .Include(b => b.User);
-            //< h5 class="text-danger" id="bg">@TempData["action_msg"]</h5>
+            //var blogDbContext = _context.Blogs                
+            //  .Include(b => b.User)                
+            //.Include(b => b.Posts) //try                                
+            //;
+
+            //var blogDbContext = from u in _context.Users    
+
+            //::try to use 'JOIN', not Include()
+            var blogDbContext = 
+                from b in _context.Blogs
+                join u in _context.Users on b.UserId equals u.Id
+                //join p in _context.Posts on b.BlogId equals p.BlogId
+                //select b
+                select new Blog
+                {
+                    BlogName = b.BlogName,
+                    UserId = b.UserId,
+                    BlogId = b.BlogId,
+                    Url = b.Url,                    
+                    User = b.User, //NP
+                    Posts = b.Posts, //NP
+                }
+                //select new
+                //{
+                //    b.BlogName,
+                //    b.UserId,
+                //    b.BlogId,
+                //    b.Url,
+                //    u.UserName, //NP
+                //    b.Posts, //NP, not count?
+                //}
+                ;
+
+            //return Json(blogDbContext.ToList());
+
             return View(await blogDbContext.ToListAsync());
         }
 
