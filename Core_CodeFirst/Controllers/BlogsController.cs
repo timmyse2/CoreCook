@@ -39,8 +39,8 @@ namespace Core_CodeFirst.Controllers
             //::try to use 'JOIN', not Include()
             var blogDbContext = 
                 from b in _context.Blogs
-                join u in _context.Users on b.UserId equals u.Id
-                //join p in _context.Posts on b.BlogId equals p.BlogId
+                ////join u in _context.Users on b.UserId equals u.Id
+                ////join p in _context.Posts on b.BlogId equals p.BlogId
                 //select b
                 select new Blog
                 {
